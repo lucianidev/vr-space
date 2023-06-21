@@ -1,7 +1,7 @@
-import { writable } from "svelte/store";
+import { readable, writable } from "svelte/store";
 
 export const user = writable({
-    username : "",
-    email : "",
-    password : "",
+    name : "",
+    isLogged : false,
 });
+
