@@ -1,17 +1,13 @@
 <script>
-  import { Account, Client } from "appwrite";
   import { onMount } from "svelte";
   import { userState } from "../stores/userStores";
 
-
-
   onMount(async() => {
-    const userInfo = userState;
-    await userInfo.isLogged();
+    await userState.isLogged();
   });
 </script>
 
-{#if userState.isLogged}
+{#if $userState.isLogged}
   <div class="navbar bg-black">
     <div class="navbar-start">
       <div class="dropdown">
