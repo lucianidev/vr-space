@@ -1,16 +1,17 @@
 <script>
   import { Account, Client } from "appwrite";
   import { onMount } from "svelte";
-  import { user } from "../stores/userStores";
-  import { isLogged } from "../utils/isLogged"
-  import {getUserName} from "../utils/getUsername"
-  
-  const userState = isLogged();
-  const username = getUserName();
+  import { userState } from "../stores/userStores";
 
+
+
+  onMount(async() => {
+    const userInfo = userState;
+    await userInfo.isLogged();
+  });
 </script>
 
-{#if userState}
+{#if userState.isLogged}
   <div class="navbar bg-black">
     <div class="navbar-start">
       <div class="dropdown">
@@ -44,7 +45,7 @@
           />
         </div>
       </label>
-      <a class="p-3 normal-case text-xl">{username}</a>
+      <a class="p-3 normal-case text-xl">{$userState.username}</a>
     </div>
     <div class="navbar-center" />
     <div class="navbar-end">

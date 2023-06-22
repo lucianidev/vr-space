@@ -1,45 +1,54 @@
 import { readable, writable } from "svelte/store";
 import { Account, Client } from "appwrite";
-import { init } from "svelte/internal";
+
 
 const createUserState = () => {
     const { set, update, subscribe } = writable({
-        username: null,
-        isLogged : null,
+        username: "",
+        isLogged: null,
         // TODO : implemnent loading state
     });
+    const start = () => {
+        const client = new Client();
+        const account = new Account(client);
+
+        client
+            .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
+            .setProject("648f118e178c4607ca18"); // Your project ID
+        return account;
+    }
+
 
     return {
         set,
         update,
         subscribe,
-        start: () => {
-            const client = new Client();
-            const account = new Account(client);
 
-            client
-                .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
-                .setProject("648f118e178c4607ca18"); // Your project ID
-            return account;
-        },
 
-        isLogged : async () => {
+
+        isLogged: async () => {
             const account = start();
-            const userdata = await account.get();
+            try {
+                const userdata = await account.get();
 
-            if(userdata) {
-                init(userdata.name, true);
-            } else {
-                init("", false)
+                if (userdata) {
+                    set({
+                        username: userdata.name,
+                        isLogged: true
+                    });
+                } else {
+                    set({
+                        username: "",
+                        isLogged: false,
+                    });
+                }
+            } catch (error) {
+                set({
+                    username: "",
+                    isLogged: false,
+                });
             }
         },
-
-        init : async(username = null, isLogged = false) => {
-            return set({
-                username : username,
-                isLogged : false,
-            });
-        }
     }
 }
 
