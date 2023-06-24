@@ -26,7 +26,7 @@ const createUserState = () => {
             try {
                 const account = start();
                 const userdata = await account.get();
-                console.log(userdata)
+
                 if (userdata) {
                     set({
                         username: userdata.name,
@@ -100,5 +100,7 @@ const createUserState = () => {
 
     }
 }
+
+// implemnet stores for user preferences(like password) and posts
 
 export const userState = createUserState();
