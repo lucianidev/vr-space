@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { Account, Client, ID } from "appwrite";
+import { Account, Client, Storage , ID } from "appwrite";
 
 
 const createUserState = () => {
@@ -98,6 +98,15 @@ const createUserState = () => {
             }
         },
 
+        getUserName : async() => {
+            try {
+                const account = start();
+                const name = (await account.get()).name;
+                return await name;
+            } catch(error) {
+                return "";
+            }
+        }
     }
 }
 
