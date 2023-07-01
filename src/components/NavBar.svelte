@@ -1,10 +1,24 @@
 <script>
   import { onMount } from "svelte";
+  import { Client, Storage } from "appwrite";
   import { userState } from "../stores/userStores";
+  import Avatar from "./Avatar.svelte";
 
-  onMount(async() => {
+  let avatarImage;
+  onMount(async () => {
+    const client = new Client();
+
+    client
+      .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
+      .setProject("648f118e178c4607ca18"); // Your project ID
+    const storage = new Storage(client);
+    
     await userState.isLogged();
+    avatarImage = await userState.getAvatar();
+    console.log(avatarImage)
   });
+
+  console.log(avatarImage , 'd')
 </script>
 
 {#if $userState.isLogged}
@@ -36,9 +50,7 @@
       </div>
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <img
-            src="https://i.kym-cdn.com/entries/icons/square/000/044/190/images.jpg"
-          />
+          <Avatar avatarId={avatarImage} username={$userState.username}></Avatar>
         </div>
       </label>
       <a class="p-3 normal-case text-xl">{$userState.username}</a>
