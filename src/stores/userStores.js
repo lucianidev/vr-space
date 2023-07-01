@@ -27,7 +27,7 @@ const createUserState = () => {
 
         isLogged: async () => {
             try {
-                [account,,] = start();
+                const [account,,] = start();
                 const userdata = await account.get();
 
                 if (userdata) {
@@ -52,7 +52,7 @@ const createUserState = () => {
         signup: async (email, password, username) => {
             
             try {
-                [account,,] = start();
+                const [account,,] = start();
                 await account.create(ID.unique(), email, password, username);
                 account.updatePrefs({
                     avatar_id : "",
@@ -72,7 +72,7 @@ const createUserState = () => {
 
         login: async (email, password) => {
             try {
-                [account,,] = start();
+                const [account,,] = start();
                 await account.createEmailSession(email, password);
                 const userInfo = await account.get();
                 console.log(userInfo)
@@ -89,7 +89,7 @@ const createUserState = () => {
         },
         logout: async () => {
             try {
-                [account,,] = start();
+                const [account,,] = start();
                 await account.account.deleteSessions();
                 set({
                     username: "",
@@ -105,7 +105,7 @@ const createUserState = () => {
 
         getUserName : async() => {
             try {
-                [account,,] = start();
+                const [account,,] = start();
                 const name = (await account.get()).name;
                 return await name;
             } catch(error) {
@@ -115,7 +115,7 @@ const createUserState = () => {
 
         getAvatar : async() => {
             try {
-                [account,,] = start();
+                const [account,,] = start();
 
                 const avatarId = (await account.getPrefs()).avatar_id;
 
@@ -128,7 +128,7 @@ const createUserState = () => {
         updateAvatar : async(file) => {
             // i know this is bad, really bad but no time to refactor LMAO!!!!!:)
             try {
-                [account,storage,db] = start();
+                const [account,storage,db] = start();
 
                 const currentAvatarId = (await account.getPrefs()).avatar_id;
                 
@@ -167,7 +167,7 @@ const createUserState = () => {
 
         deleteAvatar : async() => {
             try {
-                [account,,,] = start();
+                const [account,,,] = start();
 
                 const avatarId = (await account.getPrefs()).user_id;
                 storage.deleteFile('649aee3bd70a6aa2cb34', avatarId);
