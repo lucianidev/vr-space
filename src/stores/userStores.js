@@ -15,7 +15,10 @@ const createUserState = () => {
         client
             .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
             .setProject("648f118e178c4607ca18"); // Your project ID
-        return client;
+        const account = new Account(client);
+        const storage = new Storage(client);
+        const db = new Databases(client);
+        return [account, storage, db];
     }
 
 
@@ -24,7 +27,7 @@ const createUserState = () => {
 
         isLogged: async () => {
             try {
-                const account = new Account(start());
+                [account,,] = start();
                 const userdata = await account.get();
 
                 if (userdata) {
@@ -49,7 +52,7 @@ const createUserState = () => {
         signup: async (email, password, username) => {
             
             try {
-                const account = new Account(start());
+                [account,,] = start();
                 await account.create(ID.unique(), email, password, username);
                 account.updatePrefs({
                     avatar_id : "",
@@ -69,7 +72,7 @@ const createUserState = () => {
 
         login: async (email, password) => {
             try {
-                const account = new Account(start());
+                [account,,] = start();
                 await account.createEmailSession(email, password);
                 const userInfo = await account.get();
                 console.log(userInfo)
@@ -86,7 +89,7 @@ const createUserState = () => {
         },
         logout: async () => {
             try {
-                const account = new Account(start());
+                [account,,] = start();
                 await account.account.deleteSessions();
                 set({
                     username: "",
@@ -102,7 +105,7 @@ const createUserState = () => {
 
         getUserName : async() => {
             try {
-                const account = new Account(start());
+                [account,,] = start();
                 const name = (await account.get()).name;
                 return await name;
             } catch(error) {
@@ -112,8 +115,7 @@ const createUserState = () => {
 
         getAvatar : async() => {
             try {
-                const client = start();
-                const account = new Account(client);
+                [account,,] = start();
 
                 const avatarId = (await account.getPrefs()).avatar_id;
 
@@ -126,10 +128,7 @@ const createUserState = () => {
         updateAvatar : async(file) => {
             // i know this is bad, really bad but no time to refactor LMAO!!!!!:)
             try {
-                const client = start();
-                const account = new Account(client);
-                const storage = new Storage(client);
-                const db = new Databases(client);
+                [account,storage,db] = start();
 
                 const currentAvatarId = (await account.getPrefs()).avatar_id;
                 
@@ -168,8 +167,7 @@ const createUserState = () => {
 
         deleteAvatar : async() => {
             try {
-                const client = start();
-                const account = new Account(client);
+                [account,,,] = start();
 
                 const avatarId = (await account.getPrefs()).user_id;
                 storage.deleteFile('649aee3bd70a6aa2cb34', avatarId);
