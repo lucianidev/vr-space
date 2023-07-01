@@ -8,7 +8,6 @@
   let avatarImage;
   onMount(async () => {
     await userState.isLogged();
-    console.log(avatarImage)
   });
 </script>
 
