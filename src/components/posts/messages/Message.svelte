@@ -25,10 +25,8 @@
 <div transition:fade on:click|stopPropagation class="card bg-base-100 w-full shadow-xl">
   {#if image}
     <div class="card-body">
-      <div class="avatar flex items-center	justify-start">
-        <div class="w-10 rounded-full">
-          <Avatar avatarId={avatar} username={username}></Avatar>
-        </div>
+      <div class="flex items-center	justify-start">
+        <Avatar size="12" avatarId={avatar} username={username}></Avatar>
         <p class="m-2 ">{username}</p>
       </div>
         <figure><img src={imagePreview} alt="Shoes" /></figure>

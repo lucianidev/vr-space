@@ -1,4 +1,5 @@
 <script>
+  import { Link } from "svelte-routing";
   import { onMount } from "svelte";
   import { Client, Storage } from "appwrite";
   import { userState } from "../stores/userStores";
@@ -6,23 +7,13 @@
 
   let avatarImage;
   onMount(async () => {
-    const client = new Client();
-
-    client
-      .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
-      .setProject("648f118e178c4607ca18"); // Your project ID
-    const storage = new Storage(client);
-    
     await userState.isLogged();
-    avatarImage = await userState.getAvatar();
     console.log(avatarImage)
   });
-
-  console.log(avatarImage , 'd')
 </script>
 
 {#if $userState.isLogged}
-  <div class="navbar bg-black">
+  <nav class="navbar bg-black">
     <div class="navbar-start">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -50,7 +41,9 @@
       </div>
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <Avatar avatarId={avatarImage} username={$userState.username}></Avatar>
+          <Link to="/dashboard">
+            <Avatar size="10" avatarId={avatarImage} username={$userState.username}></Avatar>
+          </Link>
         </div>
       </label>
       <a class="p-3 normal-case text-xl">{$userState.username}</a>
@@ -84,11 +77,11 @@
         </ul>
       </div>
       <ul class="menu menu-horizontal px-1 hidden lg:flex">
-        <li><a>Feed</a></li>
-        <li><a>Marketplace</a></li>
+        <li><Link to="/">Feed</Link></li>
+        <li><Link to="/marketplace">marketplace</Link></li>
       </ul>
     </div>
-  </div>
+  </nav>
 {:else}
   <div class="navbar bg-black">
     <div class="navbar-start">
