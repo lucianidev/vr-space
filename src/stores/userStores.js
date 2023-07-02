@@ -113,6 +113,28 @@ const createUserState = () => {
             }
         },
 
+        getCurrentuserProducts : async() => {
+        try {
+            const [,,db] = start();
+            const posts = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
+            [Query.equal('username', await userState.getUserName())])).documents;
+            return posts;
+        } catch(error) {
+            console.log(error);
+        }
+        },
+
+        getCurrentUserPosts : async() => {
+            try {
+                const [,,db] = start();
+                const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
+                [Query.equal('username', await userState.getUserName())])).documents;
+                return posts;
+            } catch(error) {
+                console.log(error);
+            }
+        },
+
         getAvatar : async() => {
             try {
                 const [account,,] = start();
