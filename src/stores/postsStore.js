@@ -131,7 +131,20 @@ const createPostsStore = () => {
             } catch (error) {
                 console.log(error);
             }
+        },
 
+        getPostLikes: async (postId) => {
+            try {
+                console.log('hey')
+                const [database,] = start();
+                const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
+                    Query.equal("post_id", postId),
+                ])).documents.length;
+
+                return likes;
+            } catch (error) {
+
+            }
         },
         /*
                 removeLike : async(id) => {
