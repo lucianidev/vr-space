@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable,get } from "svelte/store";
 import { Account, Client, Storage ,Databases,Query, ID } from "appwrite";
 import { postsStore } from "./postsStore";
 
@@ -65,12 +65,14 @@ const createUserState = () => {
                 set({
                     username: username,
                     isLogged: true,
+                    avatarId : "",
                 });
                 console.log(username)
             } catch (error) {
                 set({
                     username: "",
                     isLogged: false,
+                    avatarId : "",
                 });
             }
         },
@@ -84,7 +86,7 @@ const createUserState = () => {
                 set({
                     username: userInfo.name,
                     isLogged: true,
-                    avatarId : avatarId
+                    avatarId : avatarId,
                 });
             } catch(error) {
                 set({
@@ -123,9 +125,9 @@ const createUserState = () => {
         getCurrentuserProducts : async() => {
         try {
             const [,,db] = start();
-            const posts = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
-            [Query.equal('username', await userState.getUserName())])).documents;
-            return posts;
+            const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
+            [Query.equal('username', get(userState).username)])).documents;
+            return products;
         } catch(error) {
             console.log(error);
         }
@@ -135,7 +137,7 @@ const createUserState = () => {
             try {
                 const [,,db] = start();
                 const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
-                [Query.equal('username', await userState.getUserName())])).documents;
+                [Query.equal('username', get(userState).username)])).documents;
                 return posts;
             } catch(error) {
                 console.log(error);
@@ -148,7 +150,7 @@ const createUserState = () => {
                 const [account,storage,db] = start();
 
                 const currentAvatarId = (await account.getPrefs()).avatar_id;
-                
+
                 if(currentAvatarId) {
                     storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
@@ -157,7 +159,10 @@ const createUserState = () => {
                     });
 
                     const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
-                    [Query.equal('username', await userState.getUserName())])).documents;
+                    [Query.equal('username', get(userState).username)])).documents;
+
+                    const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
+                    [Query.equal('username', get(userState).username)])).documents;
 
                     posts.forEach(post => {
                         post.avatar_id = avatarId;
@@ -168,6 +173,19 @@ const createUserState = () => {
                             date: post.date,
                             image_id : post.image_id,
                             avatar_id : avatarId,
+                        });
+                    })
+
+                    products.forEach(product => {
+                        product.avatar_id = avatarId;
+                        db.updateDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f', product.$id, {
+                            title: product.title,
+                            description: product.description,
+                            username: product.username,
+                            prize: product.prize,
+                            images_id : product.images_id,
+                            avatar_id : avatarId,
+                            tags : product.tags,
                         });
                     })
                 } else {
