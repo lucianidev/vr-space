@@ -15,7 +15,6 @@
             .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
             .setProject("648f118e178c4607ca18");
       const imagePreview = storage.getFilePreview('6499546407c2dc5f2d10', image);
-      const avatarPreview = storage.getFilePreview('649aee3bd70a6aa2cb34', avatar);
 
 
 // create icons for actions
@@ -26,12 +25,13 @@
   {#if image}
     <div class="card-body">
       <div class="flex items-center	justify-start">
-        <Avatar size="12" avatarId={avatar} username={username}></Avatar>
+        <Avatar avatarId={avatar} username={username} size="10"></Avatar>
         <p class="m-2 ">{username}</p>
       </div>
         <figure><img src={imagePreview} alt="Shoes" /></figure>
       <h2 class="card-title">{title}</h2>
       <p>{cutText(message)}</p>
+      <slot></slot>
     </div>
 
     {:else}
@@ -44,6 +44,8 @@
       </div>
       <h2 class="card-title">{title}</h2>
       <p>{cutText(message)}</p>
+      <slot></slot>
     </div>
   {/if}
+
 </div>
