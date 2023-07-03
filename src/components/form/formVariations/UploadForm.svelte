@@ -13,7 +13,7 @@
   let price = 0;
   export let isProduct;
 </script>
-{#if isProduct}
+{#if !isProduct}
 <Form formName="Post" action={() => postsStore.createPost(title, description, file)}>
 
   <FormFile bind:input={file} inputName="file" />
