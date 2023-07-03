@@ -4,18 +4,15 @@
   import FormPassword from "../FormPassword.svelte";
   import Form from "../Form.svelte";
   import { userState } from "../../../stores/userStores";
-  import { onMount } from "svelte";
+  import { Link } from "svelte-routing";
 
   let email = "";
   let password = "";
-
-  const login = async() => {
-    await userState.login(email,password)
-  }
 </script>
 
 <Form formName="Login" action={async() => await userState.login(email,password)}>
   <FormInput bind:input={email} inputName="Email" />
   <FormPassword bind:input={password} inputName="Password" />
   <Button insideText="Signup" type="submit" />
+  <Link to="/signup" class="flex justify-center items-center hover:underline">New here? Sign in now!</Link>
 </Form>
