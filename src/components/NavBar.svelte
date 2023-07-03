@@ -1,11 +1,10 @@
 <script>
   import { Link } from "svelte-routing";
   import { onMount } from "svelte";
-  import { Client, Storage } from "appwrite";
   import { userState } from "../stores/userStores";
   import Avatar from "./Avatar.svelte";
 
-  let avatarImage;
+
   onMount(async () => {
     await userState.isLogged();
   });
@@ -38,14 +37,15 @@
           <li><a>Markeplace</a></li>
         </ul>
       </div>
-      <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">
-          <Link to="/dashboard">
-            <Avatar size="10" avatarId={avatarImage} username={$userState.username}></Avatar>
-          </Link>
-        </div>
-      </label>
-      <a class="p-3 normal-case text-xl">{$userState.username}</a>
+      <Link to="/dashboard" class="flex hover:underline">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full">
+
+              <Avatar size="10" avatarId={$userState.avatarId} username={$userState.username}></Avatar>
+          </div>
+        </label>
+        <span class="p-3 normal-case text-xl center">{$userState.username}</span>
+    </Link>
     </div>
     <div class="navbar-center" />
     <div class="navbar-end">
