@@ -18,10 +18,7 @@
         <div class="modal-box">
           <div class="card-body">
             <div class="avatar flex items-center justify-start">
-              <div class="w-10 rounded-full">
-                <Avatar avatarId={$postsStore.avatar} username={$postsStore.username}></Avatar>
-                <p class="m-2">{$postsStore.username}</p>
-              </div>
+              <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size="10"></Avatar>
               <p class="m-2">{$postsStore.username}</p>
             </div>
             <figure>
