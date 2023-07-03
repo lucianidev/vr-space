@@ -13,7 +13,6 @@
 <ul class="flex justify-between w-full">
     <li class="w-8 h-8	 m-1">
         <img class="" src="../../../assets/heart.svg" alt="" on:click={() => postsStore.ispostIsLiked(postdId).then(async isLiked => {
-            console.log(isLiked)
             if(isLiked) return;
             postsStore.likePost(postdId, likedPostUser);
         })}>
