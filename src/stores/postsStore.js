@@ -101,15 +101,24 @@ const createPostsStore = () => {
         },
 
         likePost: async (postId, likedPostUser) => {
-            console.log(likedPostUser)
             try {
-                console.log(postId)
                 const [database,] = start();
-                console.log(await userState.getUserName())
                 await database.createDocument('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', ID.unique(), {
                     from: await userState.getUserName(),
                     post_id: postId,
                     to: likedPostUser,
+                });
+
+                const post = await database.getDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', postId);
+                console.log(post)
+                await database.updateDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', postId, {
+                    title: post.title,
+                    description: post.description,
+                    username: post.username,
+                    date: post.date,
+                    image_id: post.image_id,
+                    avatar_id: post.avatar_id,
+                    likes : post.likes + 1,
                 });
             } catch (error) {
                 console.log(error)
@@ -134,8 +143,8 @@ const createPostsStore = () => {
         },
 
         getPostLikes: async (postId) => {
+            console.log('hey')
             try {
-                console.log('hey')
                 const [database,] = start();
                 const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
                     Query.equal("post_id", postId),
@@ -143,7 +152,7 @@ const createPostsStore = () => {
 
                 return likes;
             } catch (error) {
-
+                console.log(error)
             }
         },
         /*
