@@ -4,11 +4,7 @@
   import { userState } from "../../stores/userStores";
   import MessageOnFocus from "./messages/MessageOnFocus.svelte";
   import { postsStore } from "../../stores/postsStore";
-  import { setContext } from "svelte";
-  // implement show only if logged :: DONE
-  // implement text cutting : DONE
-  // make it responsive : DONE
-  // implement show focused post on click  :: DONE
+
   let username = "";
   onMount(async () => {
     await userState.isLogged();
@@ -16,7 +12,6 @@
   });
 
   const posts = postsStore.readPosts();
-  postsStore.readPosts().then(data => console.log(data))
 </script>
 
 {#if $userState.isLogged}
