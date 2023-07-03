@@ -3,11 +3,10 @@
   export let avatarId;
   export let username;
   export let size;
-  export let border;
 </script>
 
 <div class="avatar">
-  <div class="w-{size} rounded-full">
+  <div class="{`w-${size}`} rounded-full">
     {#if avatarId}
       <img src={postsStore.preview("649aee3bd70a6aa2cb34", avatarId)} alt="" />
     {:else}
