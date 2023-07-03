@@ -7,6 +7,7 @@ const createUserState = () => {
     const { set, update, subscribe } = writable({
         username: "",
         isLogged: false,
+        avatarId : "",
     });
     const start = () => {
         const client = new Client();
@@ -29,22 +30,26 @@ const createUserState = () => {
             try {
                 const [account,,] = start();
                 const userdata = await account.get();
+                const avatarId = (await account.getPrefs()).avatar_id;
 
                 if (userdata) {
                     set({
                         username: userdata.name,
-                        isLogged: true
+                        isLogged: true,
+                        avatarId : avatarId,
                     });
                 } else {
                     set({
                         username: "",
                         isLogged: false,
+                        avatarId : ""
                     });
                 }
             } catch (error) {
                 set({
                     username: "",
                     isLogged: false,
+                    avatarId : "",
                 });
             }
         },
@@ -75,15 +80,17 @@ const createUserState = () => {
                 const [account,,] = start();
                 await account.createEmailSession(email, password);
                 const userInfo = await account.get();
-                console.log(userInfo)
+                const avatarId = (await account.getPrefs()).avatar_id;
                 set({
                     username: userInfo.name,
                     isLogged: true,
+                    avatarId : avatarId
                 });
             } catch(error) {
                 set({
                     username: "",
                     isLogged: false,
+                    avatarId : "",
                 });
             }
         },
