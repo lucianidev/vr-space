@@ -142,18 +142,6 @@ const createUserState = () => {
             }
         },
 
-        getAvatar : async() => {
-            try {
-                const [account,,] = start();
-
-                const avatarId = (await account.getPrefs()).avatar_id;
-
-                return avatarId;
-            } catch(error) {
-                return;
-            }
-        },
-
         updateAvatar : async(file) => {
             // i know this is bad, really bad but no time to refactor LMAO!!!!!:)
             try {
