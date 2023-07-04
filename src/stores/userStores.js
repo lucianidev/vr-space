@@ -1,7 +1,6 @@
 import { writable,get } from "svelte/store";
 import { Account, Client, Storage ,Databases,Query, ID } from "appwrite";
-import { postsStore } from "./postsStore";
-
+import { navigate } from "svelte-routing";
 
 const createUserState = () => {
     const { set, update, subscribe } = writable({
@@ -67,6 +66,8 @@ const createUserState = () => {
                     isLogged: true,
                     avatarId : "",
                 });
+
+                navigate('/', {replace : true});
                 console.log(username)
             } catch (error) {
                 set({
@@ -88,6 +89,7 @@ const createUserState = () => {
                     isLogged: true,
                     avatarId : avatarId,
                 });
+                navigate('/', {replace : true});
             } catch(error) {
                 set({
                     username: "",
@@ -110,6 +112,7 @@ const createUserState = () => {
                     isLogged: false,
                 });
             }
+            navigate('/signup', {replace : true});
         },
 
         getUserName : async() => {
@@ -125,6 +128,7 @@ const createUserState = () => {
         getCurrentuserProducts : async() => {
         try {
             const [,,db] = start();
+            console.log('hey')
             const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
             [Query.equal('username', get(userState).username)])).documents;
             return products;
@@ -136,6 +140,7 @@ const createUserState = () => {
         getCurrentUserPosts : async() => {
             try {
                 const [,,db] = start();
+                console.log('efds')
                 const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
                 [Query.equal('username', get(userState).username)])).documents;
                 return posts;
