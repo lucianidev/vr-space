@@ -67,7 +67,7 @@ const createUserState = () => {
                 });
 
                 navigate('/', {replace : true});
-                console.log(username)
+                (username)
             } catch (error) {
                 set({
                     username: "",
@@ -126,24 +126,24 @@ const createUserState = () => {
         getCurrentuserProducts : async() => {
         try {
             const [,,db] = start();
-            console.log('hey')
+            ('hey')
             const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
             [Query.equal('username', get(userState).username)])).documents;
             return products;
         } catch(error) {
-            console.log(error);
+            (error);
         }
         },
 
         getCurrentUserPosts : async() => {
             try {
                 const [,,db] = start();
-                console.log('efds')
+                ('efds')
                 const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
                 [Query.equal('username', get(userState).username)])).documents;
                 return posts;
             } catch(error) {
-                console.log(error);
+                (error);
             }
         },
 
@@ -163,13 +163,13 @@ const createUserState = () => {
 
                     const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
                     [Query.equal('username', get(userState).username)])).documents;
-
+                    (posts)
                     const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
                     [Query.equal('username', get(userState).username)])).documents;
 
-                    posts.forEach(post => {
-                        post.avatar_id = avatarId;
-                        db.updateDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', post.$id, {
+                    posts.forEach(async post => {
+
+                        await db.updateDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', post.$id, {
                             title: post.title,
                             description: post.description,
                             username: post.username,
@@ -179,9 +179,8 @@ const createUserState = () => {
                         });
                     })
 
-                    products.forEach(product => {
-                        product.avatar_id = avatarId;
-                        db.updateDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f', product.$id, {
+                    products.forEach(async product => {
+                        await db.updateDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f', product.$id, {
                             title: product.title,
                             description: product.description,
                             username: product.username,
