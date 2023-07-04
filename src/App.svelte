@@ -1,5 +1,5 @@
 <script>
-import {Router, Link, Route} from "svelte-routing"
+import router from "page"
 import UserFeed from "./pages/UserFeed.svelte";
 import UserMarketplace from "./pages/UserMarketplace.svelte";
 import Dashboard from "./pages/Dashboard.svelte";
@@ -7,17 +7,22 @@ import NavBar from "./components/NavBar.svelte";
 import Signup from "./pages/Signup.svelte";
 import Login from "./pages/Login.svelte";
 import SearchPageResult from "./pages/SearchPageResult.svelte";
-export let url = "/";
 
+let page;
+let params;
+router('/', () => page = UserFeed)
+router('/login', () => page = Login)
+router('/signup', () => page = Signup)
+router('/marketplace', () => page = UserMarketplace)
+router('/dashboard', () => page = Dashboard)
+router('/search/:where/:what', (ctx,next) => {
+    params = ctx.params
+    next();
+},() => page = SearchPageResult)
+
+router.start();
 </script>
-
-
-<Router {url}>
-    <NavBar></NavBar>
-    <Route path="/search/:where/:what" component={SearchPageResult}></Route>
-    <Route path="/marketplace" component={UserMarketplace}></Route>
-    <Route path="/dashboard" component={Dashboard}></Route>
-    <Route path="/signup" component={Signup}></Route>
-    <Route path="/login" component={Login}></Route>
-    <Route path="/"><UserFeed></UserFeed></Route>
-</Router>
+<NavBar></NavBar>
+<main>
+    <svelte:component this="{page}" params="{params}" />
+</main>

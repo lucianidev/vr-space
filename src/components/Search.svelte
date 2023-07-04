@@ -1,5 +1,4 @@
 <script>
-    import { Link ,navigate } from "svelte-routing";
 let searchSubject = "";
 $ : show = false;
 </script>
@@ -18,24 +17,24 @@ $ : show = false;
 
       <ul class="flex flex-col justify-center items-center w-full">
           <li class="flex justfiy-start items-center cursor-pointer p-5 bg-base-100 w-full lg:w-6/12 hover:bg-slate-800" on:click={() => searchSubject = ""}>
-            <Link class="flex" to={`/search/users/${searchSubject}`}>
+            <a class="flex" href={`/search/users/${searchSubject}`}>
                 <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 <span class="hover:underline">search {searchSubject} in users</span>
-            </Link>
+            </a>
           </li>
 
           <li class="flex justfiy-start items-cente cursor-pointer p-5 bg-base-100 w-full lg:w-6/12 hover:bg-slate-800" on:click={() => searchSubject = ""}>
-            <Link class="flex" to={`/search/store/${searchSubject}`}>
+            <a class="flex" href={`/search/store/${searchSubject}`}>
                 <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="20.5" r="1"/><circle cx="18" cy="20.5" r="1"/><path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/></svg>
                 <span class="hover:underline">search {searchSubject} in marketplace</span>
-            </Link>
+            </a>
         </li>   
         
         <li class="flex justfiy-start items-cente cursor-pointer p-5 bg-base-100 w-full lg:w-6/12 hover:bg-slate-800" on:click={() => searchSubject = ""}>
-          <Link class="flex" to={`/search/tags/${searchSubject}`}>
+          <a class="flex" href={`/search/tags/${searchSubject}`}>
             <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
             <span class="hover:underline">search {searchSubject} by category</span>
-          </Link>
+          </a>
       </li>   
     </ul>
       {/if}

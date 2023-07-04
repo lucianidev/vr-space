@@ -1,6 +1,5 @@
 import { writable,get } from "svelte/store";
 import { Account, Client, Storage ,Databases,Query, ID } from "appwrite";
-import { navigate } from "svelte-routing";
 
 const createUserState = () => {
     const { set, update, subscribe } = writable({
@@ -112,7 +111,6 @@ const createUserState = () => {
                     isLogged: false,
                 });
             }
-            navigate('/signup', {replace : true});
         },
 
         getUserName : async() => {

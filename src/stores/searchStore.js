@@ -1,6 +1,5 @@
 import { writable, get } from "svelte/store";
 import { Account, Client, Storage, Databases, Query, ID } from "appwrite";
-import { navigate } from "svelte-routing";
 
 const searchstore = () => {
     const { set, update, subscribe } = writable({

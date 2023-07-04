@@ -3,7 +3,6 @@
   import FormInput from "../FormInput.svelte";
   import FormPassword from "../FormPassword.svelte";
   import Form from "../Form.svelte";
-  import { Link } from "svelte-routing";
   import { userState } from "../../../stores/userStores";
   let username = "";
   let email = "";
@@ -23,5 +22,5 @@
   <FormInput bind:input={email} inputName="Email" />
   <FormPassword bind:input={password} inputName="Password" />
   <Button insideText="Signup" type="submit" />
-  <Link to="/login" class="flex justify-center items-center hover:underline">Already an account? Log in now!</Link>
+  <a href="/login" class="flex justify-center items-center hover:underline">Already an account? Log in now!</a>
 </Form>

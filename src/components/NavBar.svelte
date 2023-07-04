@@ -1,5 +1,4 @@
 <script>
-  import { Link } from "svelte-routing";
   import { onMount } from "svelte";
   import { userState } from "../stores/userStores";
   import Avatar from "./Avatar.svelte";
@@ -33,11 +32,11 @@
           tabindex="0"
           class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
         >
-        <li><Link to="/">Feed</Link></li>
-        <li><Link to="/marketplace">marketplace</Link></li>
+        <li><a href="/">Feed</a></li>
+        <li><a href="/marketplace">marketplace</a></li>
         </ul>
       </div>
-      <Link to="/dashboard" class="flex hover:underline">
+      <a href="/dashboard" class="flex hover:underline">
         <label tabindex="0" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
 
@@ -45,7 +44,7 @@
           </div>
         </label>
         <span class="p-3 normal-case text-xl center">{$userState.username}</span>
-    </Link>
+      </a>
     </div>
     <div class="navbar-center" />
     <div class="navbar-end">
@@ -76,8 +75,8 @@
         </ul>
       </div>
       <ul class="menu menu-horizontal px-1 hidden lg:flex">
-        <li><Link to="/">Feed</Link></li>
-        <li><Link to="/marketplace">marketplace</Link></li>
+        <li><a href="/">Feed</a></li>
+        <li><a href="/marketplace">marketplace</a></li>
       </ul>
     </div>
   </nav>

@@ -4,14 +4,19 @@
   import User from "../components/User.svelte";
   import Product from "../components/posts/marketplace/Product.svelte";
   import { userState } from "../stores/userStores";
-  export let what;
-  export let where;
+  export let params;
+  let what = params.what;
+  let where = params.where;
+
+  const searchUsers = searchStore.searchUsers(what);
+  const productsByTitle = searchStore.searchProductsByTitle(what);
+  const productsByTag = searchStore.searchProductsByTag(what);
 </script>
 
 <Search />
 <div class=" flex flex-col lg:grid place-items-center w-full gap-3 grid-cols-3">
   {#if where == "users"}
-    {#await searchStore.searchUsers(what)}
+    {#await searchUsers}
       <p>loading...</p>
     {:then users}
       {#each users as user}
@@ -19,7 +24,7 @@
       {/each}
     {/await}
   {:else if where == "store"}
-    {#await searchStore.searchProductsByTitle(what)}
+    {#await productsByTitle}
       <p>loading...</p>
     {:then products}
       {#each products.filter((product) => product.username != $userState.username) as product}
@@ -34,7 +39,7 @@
       {/each}
     {/await}
   {:else if where == "tags"}
-    {#await searchStore.searchProductsByTag(what)}
+    {#await productsByTag}
       <p>loading...</p>
     {:then products}
       {#each products.filter((product) => product.username != $userState.username) as product}
