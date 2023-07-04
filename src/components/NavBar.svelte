@@ -33,8 +33,8 @@
           tabindex="0"
           class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><a>Feed</a></li>
-          <li><a>Markeplace</a></li>
+        <li><Link to="/">Feed</Link></li>
+        <li><Link to="/marketplace">marketplace</Link></li>
         </ul>
       </div>
       <Link to="/dashboard" class="flex hover:underline">

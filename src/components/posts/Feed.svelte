@@ -4,6 +4,7 @@
   import { userState } from "../../stores/userStores";
   import MessageOnFocus from "./messages/MessageOnFocus.svelte";
   import { postsStore } from "../../stores/postsStore";
+  import Search from "../Search.svelte";
 
   let username = "";
   onMount(async () => {
@@ -15,6 +16,7 @@
 </script>
 
 {#if $userState.isLogged}
+<Search></Search>
   <div
     class=" flex flex-col lg:grid place-items-center w-full gap-4 grid-cols-3"
   >
