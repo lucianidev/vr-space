@@ -3,6 +3,7 @@
       import {cutText} from "../../../utils/cutText"
       import { fade } from "svelte/transition"
   import Avatar from "../../Avatar.svelte";
+  import { postsStore } from "../../../stores/postsStore";
       export let title;
       export let message;
       export let username;
@@ -10,13 +11,11 @@
       export let avatar;
       const client = new Client();
       const storage = new Storage(client);
-      console.log(image)
+
         client
             .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
             .setProject("648f118e178c4607ca18");
       const imagePreview = storage.getFilePreview('6499546407c2dc5f2d10', image);
-
-
 // create icons for actions
 
 </script>
@@ -28,7 +27,7 @@
         <Avatar avatarId={avatar} username={username} size="10"></Avatar>
         <p class="m-2 ">{username}</p>
       </div>
-        <figure><img src={imagePreview} alt="Shoes" /></figure>
+        <figure><img src={postsStore.preview('6499546407c2dc5f2d10', image)} alt="Shoes" /></figure>
       <h2 class="card-title">{title}</h2>
       <p>{cutText(message)}</p>
       <slot></slot>
