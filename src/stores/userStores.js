@@ -126,7 +126,6 @@ const createUserState = () => {
         getCurrentuserProducts : async() => {
         try {
             const [,,db] = start();
-            ('hey')
             const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
             [Query.equal('username', get(userState).username)])).documents;
             return products;
@@ -138,7 +137,6 @@ const createUserState = () => {
         getCurrentUserPosts : async() => {
             try {
                 const [,,db] = start();
-                ('efds')
                 const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
                 [Query.equal('username', get(userState).username)])).documents;
                 return posts;
@@ -156,6 +154,7 @@ const createUserState = () => {
 
                 if(currentAvatarId) {
                     storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
+
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
                     await account.updatePrefs({
                         avatar_id : avatarId,
@@ -165,6 +164,8 @@ const createUserState = () => {
                     [Query.equal('username', get(userState).username)])).documents;
                     (posts)
                     const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
+                    [Query.equal('username', get(userState).username)])).documents;
+                    const profile = (await db.listDocuments('64a553299087271a8aea', '64a5533cd148431c27fd', 
                     [Query.equal('username', get(userState).username)])).documents;
 
                     posts.forEach(async post => {
@@ -190,11 +191,19 @@ const createUserState = () => {
                             tags : product.tags,
                         });
                     })
+                    await db.updateDocument('64a553299087271a8aea', '64a5533cd148431c27fd', profile.$id, {
+                        username : profile.username,
+                        avatar_id : avatarId,
+                    })
                 } else {
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
                     await account.updatePrefs({
                         avatar_id : avatarId,
                     });  
+                    await db.createDocument('64a553299087271a8aea', '64a5533cd148431c27fd', ID.unique(), {
+                        username : get(userState).username,
+                        avatar_id : avatarId,
+                    })
                 }
 
             } catch(error) {
@@ -204,12 +213,16 @@ const createUserState = () => {
 
         deleteAvatar : async() => {
             try {
-                const [account,,,] = start();
-
-                const avatarId = (await account.getPrefs()).user_id;
-                storage.deleteFile('649aee3bd70a6aa2cb34', avatarId);
+                const [account,storage,,] = start();
+// delete entry in the db
+                const avatarId = (await account.getPrefs()).avatar_id;
+                console.log(avatarId)
+                await storage.deleteFile('649aee3bd70a6aa2cb34', avatarId);
+                await account.updatePrefs({
+                    avatar_id : '',
+                })
             } catch(error) {
-                return;
+                console.error(error);
             }
         },
     }
