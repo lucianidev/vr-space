@@ -4,6 +4,7 @@
   import FormPassword from "../FormPassword.svelte";
   import Form from "../Form.svelte";
   import { userState } from "../../../stores/userStores";
+  import router from "page"
   let username = "";
   let email = "";
   let password = "";
@@ -21,6 +22,6 @@
   <FormInput bind:input={username} inputName="Username" />
   <FormInput bind:input={email} inputName="Email" />
   <FormPassword bind:input={password} inputName="Password" />
-  <Button insideText="Signup" type="submit" />
+  <Button insideText="Signup" type="submit" action={() => router.redirect('/')}/>
   <a href="/login" class="flex justify-center items-center hover:underline">Already an account? Log in now!</a>
 </Form>
