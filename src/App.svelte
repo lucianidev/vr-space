@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar.svelte";
 import Signup from "./pages/Signup.svelte";
 import Login from "./pages/Login.svelte";
 import SearchPageResult from "./pages/SearchPageResult.svelte";
+import ProfilePage from "./pages/ProfilePage.svelte";
 
 let page;
 let params;
@@ -19,6 +20,10 @@ router('/search/:where/:what', (ctx,next) => {
     params = ctx.params
     next();
 },() => page = SearchPageResult)
+router('/profile/:name',(ctx,next) => {
+    params = ctx.params
+    next();
+},() => page = ProfilePage)
 
 router.start();
 </script>
