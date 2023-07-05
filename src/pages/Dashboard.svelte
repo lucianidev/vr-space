@@ -8,14 +8,12 @@
   import AvatarChange from "../components/form/formVariations/AvatarChange.svelte";
   let posts = [];
   let products = [];
-  
+  $: showPosts = true;
   onMount(async () => {
     await userState.isLogged();
     posts = userState.getCurrentUserPosts().then(data => data);
     products = userState.getCurrentuserProducts().then(data => data);
   });
-
-  $: showPosts = true;
 
 </script>
 
