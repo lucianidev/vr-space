@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { searchStore } from "../stores/searchStore";
-  import { fade } from "svelte/transition";
   import Search from "../components/Search.svelte";
   import User from "../components/User.svelte";
   import Product from "../components/posts/marketplace/Product.svelte";
@@ -19,12 +18,12 @@
   })
 </script>
 <Search />
-<div class=" flex flex-col lg:grid place-items-center w-full gap-3 grid-cols-3" id="search" out:fade={{duration:0}}>
+<div class=" flex flex-col lg:grid place-items-center w-full gap-3 grid-cols-3" id="search">
   {#if where == "users"}
     {#await searchUsers}
       <p>loading...</p>
     {:then users}
-      {#each users as user}
+      {#each users as user (user.$id)}
         <User username={user.username} avatardId={user.avatar_id} />
       {/each}
     {/await}
@@ -32,7 +31,7 @@
     {#await productsByTitle}
       <p>loading...</p>
     {:then products}
-      {#each products.filter((product) => product.username != $userState.username) as product}
+      {#each products.filter((product) => product.username != $userState.username) as product (product.$id)}
         <Product
           title={product.title}
           description={product.description}
@@ -47,7 +46,7 @@
     {#await productsByTag}
       <p>loading...</p>
     {:then products}
-      {#each products.filter((product) => product.username != $userState.username) as product}
+      {#each products.filter((product) => product.username != $userState.username) as product (product.$id)}
         <Product
           title={product.title}
           description={product.description}
