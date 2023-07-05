@@ -1,11 +1,29 @@
-import { writable } from "svelte/store";
-import { Client, Databases, Storage, Query, ID } from "appwrite";
-import { splitTags } from "../utils/splitTags";
-import { imagesToId } from "../utils/convertImagesToId";
-import { userState } from "./userStores";
+import {
+    writable
+} from "svelte/store";
+import {
+    Client,
+    Databases,
+    Storage,
+    Query,
+    ID
+} from "appwrite";
+import {
+    splitTags
+} from "../utils/splitTags";
+import {
+    imagesToId
+} from "../utils/convertImagesToId";
+import {
+    userState
+} from "./userStores";
 
 const createPostsStore = () => {
-    const { set, update, subscribe } = writable({
+    const {
+        set,
+        update,
+        subscribe
+    } = writable({
         title: "",
         message: "",
         username: "",
@@ -38,8 +56,7 @@ const createPostsStore = () => {
                     await database.createDocument(
                         "6492fa03477ec93ae650",
                         "6492fa0b59b3b4f615fa",
-                        ID.unique(),
-                        {
+                        ID.unique(), {
                             title: title,
                             description: description,
                             username: await userState.getUserName(),
@@ -52,8 +69,7 @@ const createPostsStore = () => {
                     await database.createDocument(
                         "6492fa03477ec93ae650",
                         "6492fa0b59b3b4f615fa",
-                        ID.unique(),
-                        {
+                        ID.unique(), {
                             title: title,
                             description: description,
                             username: await userState.getUserName(),
@@ -74,8 +90,7 @@ const createPostsStore = () => {
                 await database.createDocument(
                     "6492fa03477ec93ae650",
                     "649c37a515560d0fd35f",
-                    ID.unique(),
-                    {
+                    ID.unique(), {
                         title: title,
                         description: description,
                         username: await userState.getUserName(),
@@ -93,7 +108,7 @@ const createPostsStore = () => {
 
         listProducts: async () => {
             try {
-                const [database,] = start();
+                const [database, ] = start();
                 return await database.listDocuments("6492fa03477ec93ae650", "649c37a515560d0fd35f")
             } catch (error) {
                 console.error(error);
@@ -102,7 +117,7 @@ const createPostsStore = () => {
 
         likePost: async (postId, likedPostUser) => {
             try {
-                const [database,] = start();
+                const [database, ] = start();
                 await database.createDocument('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', ID.unique(), {
                     from: await userState.getUserName(),
                     post_id: postId,
@@ -110,7 +125,7 @@ const createPostsStore = () => {
                 });
 
                 const post = await database.getDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', postId);
-                console.log(post)
+                (post)
                 await database.updateDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', postId, {
                     title: post.title,
                     description: post.description,
@@ -118,41 +133,73 @@ const createPostsStore = () => {
                     date: post.date,
                     image_id: post.image_id,
                     avatar_id: post.avatar_id,
-                    likes : post.likes + 1,
+                    likes: post.likes + 1,
                 });
             } catch (error) {
-                console.log(error)
+                (error)
+            }
+        },
+
+        getUserProducts: async (user) => {
+            try {
+                const [database,] = start();
+                const products = (await database.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f',
+                    [Query.equal('username', user)])).documents;
+                return products;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        getUserPosts: async (user) => {
+            try {
+                const [database,] = start();
+                const posts = (await database.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa',
+                    [Query.equal('username', user)])).documents;
+                return posts;
+            } catch (error) {
+                (error);
+            }
+        },
+
+        getUserAvatar: async (user) => {
+            try {
+                const [database,] = start();
+                const profileAvatar = (await database.listDocuments('64a553299087271a8aea', '64a5533cd148431c27fd',
+                    [Query.equal('username', user)])).documents[0].avatar_id;
+                return profileAvatar;
+            } catch (error) {
+                (error);
             }
         },
 
         ispostIsLiked: async (postId) => {
             try {
-                console.log(postId)
-                const [database,] = start();
+                (postId)
+                const [database, ] = start();
                 const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
                     Query.equal("from", await userState.getUserName()),
                     Query.equal("post_id", postId),
                 ])).documents.length;
 
-                console.log(likes)
+                (likes)
                 if (likes >= 1) return true;
                 return false;
             } catch (error) {
-                console.log(error);
+                (error);
             }
         },
 
         getPostLikes: async (postId) => {
-            console.log('hey')
             try {
-                const [database,] = start();
+                const [database, ] = start();
                 const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
                     Query.equal("post_id", postId),
                 ])).documents.length;
 
                 return likes;
             } catch (error) {
-                console.log(error)
+                (error)
             }
         },
         /*
@@ -171,17 +218,17 @@ const createPostsStore = () => {
                             likes : post.likes--,
                         })
                     } catch(error) {
-                        console.log(error)
+                        (error)
                     }
                 },
         */
-        deletedProduct: async () => { }, // todo
-        modifyProduct: async () => { }, // TODO
+        deletedProduct: async () => {}, // todo
+        modifyProduct: async () => {}, // TODO
 
         preview: (bucketId, id) => {
             try {
                 const [, storage] = start();
-                console.log(storage)
+                (storage)
                 return storage.getFilePreview(bucketId, id);
             } catch (error) {
                 console.error(error);
@@ -189,7 +236,7 @@ const createPostsStore = () => {
         },
         deletePost: async (id) => {
             try {
-                const [database,] = start();
+                const [database, ] = start();
                 await database.deleteDocument(
                     "6492fa03477ec93ae650",
                     "6492fa0b59b3b4f615fa",
@@ -205,11 +252,13 @@ const createPostsStore = () => {
                 const [database, storage] = start();
                 await database.updateDocument("6492fa03477ec93ae650",
                     "6492fa0b59b3b4f615fa", id, {
-                    title: title,
-                    description: message,
-                    username: userState.subscribe((data) => { return data.username }),
-                    date: new Date(Date.now()).toISOString(),
-                }
+                        title: title,
+                        description: message,
+                        username: userState.subscribe((data) => {
+                            return data.username
+                        }),
+                        date: new Date(Date.now()).toISOString(),
+                    }
                 );
 
             } catch (error) {
@@ -220,8 +269,8 @@ const createPostsStore = () => {
         readPosts: async () => {
             try {
                 const [database, storage] = start();
-                const posts = await database.listDocuments("6492fa03477ec93ae650",
-                    "6492fa0b59b3b4f615fa",); // implement query
+                const posts = (await database.listDocuments("6492fa03477ec93ae650",
+                    "6492fa0b59b3b4f615fa", )).documents; // implement query
                 return posts;
             } catch (error) {
                 console.error(error);
@@ -238,6 +287,8 @@ const createPostsStore = () => {
                 avatar: avatar,
                 postId: id,
             });
+
+            console.log(image);
         },
 
         removeFocus: () => {
