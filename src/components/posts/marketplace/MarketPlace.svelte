@@ -3,6 +3,7 @@
   import { postsStore } from "../../../stores/postsStore";
   import { userState } from "../../../stores/userStores";
   import { onMount } from "svelte";
+  import Search from "../../Search.svelte";
   let username = "";
   onMount(async () => {
     await userState.isLogged();
@@ -13,6 +14,7 @@
 </script>
 
 {#if $userState.isLogged}
+<Search></Search>
   <div
     class=" flex flex-col lg:grid place-items-center w-full gap-4 grid-cols-3"
   >
