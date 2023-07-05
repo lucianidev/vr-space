@@ -4,17 +4,19 @@
   import Product from "../components/posts/marketplace/Product.svelte";
   import Avatar from "../components/Avatar.svelte";
   import { userState } from "../stores/userStores";
-  import { postsStore } from "../stores/postsStore";
   import LoginForm from "../components/form/formVariations/LoginForm.svelte";
   import AvatarChange from "../components/form/formVariations/AvatarChange.svelte";
- 
-  let posts = userState.getCurrentUserPosts();
-  let products = userState.getCurrentuserProducts();
-  $: showPosts = true;
-
+  let posts = [];
+  let products = [];
+  
   onMount(async () => {
     await userState.isLogged();
+    posts = userState.getCurrentUserPosts().then(data => data);
+    products = userState.getCurrentuserProducts().then(data => data);
   });
+
+  $: showPosts = true;
+
 </script>
 
 {#if $userState.isLogged}

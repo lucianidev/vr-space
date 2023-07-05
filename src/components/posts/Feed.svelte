@@ -7,12 +7,14 @@
   import Search from "../Search.svelte";
 
   let username = "";
+  let posts = [];
   onMount(async () => {
     await userState.isLogged();
     username = await userState.getUserName();
+    posts = postsStore.readPosts().then(data => data);
   });
 
-  const posts = postsStore.readPosts();
+
 </script>
 
 {#if $userState.isLogged}
@@ -23,7 +25,7 @@
     {#await posts}
       <p>loading</p>
     {:then postsInfo}
-      {#each postsInfo.documents.filter(post => post.username != username) as post}
+      {#each postsInfo.filter(post => post.username != username) as post}
         <Message
           on:click={() => {
             postsStore.OnFocus(
