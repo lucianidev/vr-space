@@ -134,6 +134,18 @@ const createUserState = () => {
         }
         },
 
+        getCurrentUserNotification : async() => {
+            try {
+                const [,,db] = start();
+                const notifications = (await db.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', 
+                [Query.equal('to', get(userState).username)])).documents;
+                if(notifications.length <= 3) return notifications;
+                return notifications.slice(0, 3);
+            } catch(error) {
+                (error);
+            }
+        },
+
         getCurrentUserPosts : async() => {
             try {
                 const [,,db] = start();
