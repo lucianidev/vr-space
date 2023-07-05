@@ -269,8 +269,7 @@ const createPostsStore = () => {
         readPosts: async () => {
             try {
                 const [database, storage] = start();
-                const posts = (await database.listDocuments("6492fa03477ec93ae650",
-                    "6492fa0b59b3b4f615fa", )).documents; // implement query
+                const posts = (await database.listDocuments("6492fa03477ec93ae650","6492fa0b59b3b4f615fa", )).documents; 
                 return posts;
             } catch (error) {
                 console.error(error);
@@ -287,8 +286,6 @@ const createPostsStore = () => {
                 avatar: avatar,
                 postId: id,
             });
-
-            console.log(image);
         },
 
         removeFocus: () => {
