@@ -157,6 +157,60 @@ const createUserState = () => {
             }
         },
 
+        changeAvatarEverywhere : async (avatarId, account, db) => {
+            try {
+                await account.updatePrefs({
+                    avatar_id : avatarId,
+                });
+
+                const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
+                [Query.equal('username', get(userState).username)])).documents;
+                (posts)
+                const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
+                [Query.equal('username', get(userState).username)])).documents;
+                const profile = (await db.listDocuments('64a553299087271a8aea', '64a5533cd148431c27fd', 
+                [Query.equal('username', get(userState).username)])).documents;
+
+                posts.forEach(async post => {
+
+                    await db.updateDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', post.$id, {
+                        title: post.title,
+                        description: post.description,
+                        username: post.username,
+                        date: post.date,
+                        image_id : post.image_id,
+                        avatar_id : avatarId,
+                    });
+                })
+
+                products.forEach(async product => {
+                    await db.updateDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f', product.$id, {
+                        title: product.title,
+                        description: product.description,
+                        username: product.username,
+                        prize: product.prize,
+                        images_id : product.images_id,
+                        avatar_id : avatarId,
+                        tags : product.tags,
+                    });
+                })
+
+                if(profile.length) {
+                    await db.createDocument('64a553299087271a8aea', '64a5533cd148431c27fd', ID.unique(), {
+                        username : get(userState).username,
+                        avatar_id : avatarId,
+                    })
+                } else {
+                    await db.updateDocument('64a553299087271a8aea', '64a5533cd148431c27fd', profile.$id, {
+                        username : profile.username,
+                        avatar_id : avatarId,
+                    })
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
         updateAvatar : async(file) => {
             // i know this is bad, really bad but no time to refactor LMAO!!!!!:)
             try {
@@ -168,54 +222,11 @@ const createUserState = () => {
                     storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
 
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
-                    await account.updatePrefs({
-                        avatar_id : avatarId,
-                    });
-
-                    const posts = (await db.listDocuments('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', 
-                    [Query.equal('username', get(userState).username)])).documents;
-                    (posts)
-                    const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f', 
-                    [Query.equal('username', get(userState).username)])).documents;
-                    const profile = (await db.listDocuments('64a553299087271a8aea', '64a5533cd148431c27fd', 
-                    [Query.equal('username', get(userState).username)])).documents;
-
-                    posts.forEach(async post => {
-
-                        await db.updateDocument('6492fa03477ec93ae650', '6492fa0b59b3b4f615fa', post.$id, {
-                            title: post.title,
-                            description: post.description,
-                            username: post.username,
-                            date: post.date,
-                            image_id : post.image_id,
-                            avatar_id : avatarId,
-                        });
-                    })
-
-                    products.forEach(async product => {
-                        await db.updateDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f', product.$id, {
-                            title: product.title,
-                            description: product.description,
-                            username: product.username,
-                            prize: product.prize,
-                            images_id : product.images_id,
-                            avatar_id : avatarId,
-                            tags : product.tags,
-                        });
-                    })
-                    await db.updateDocument('64a553299087271a8aea', '64a5533cd148431c27fd', profile.$id, {
-                        username : profile.username,
-                        avatar_id : avatarId,
-                    })
+                    userState.changeAvatarEverywhere(avatarId, account, db);
+                    
                 } else {
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
-                    await account.updatePrefs({
-                        avatar_id : avatarId,
-                    });  
-                    await db.createDocument('64a553299087271a8aea', '64a5533cd148431c27fd', ID.unique(), {
-                        username : get(userState).username,
-                        avatar_id : avatarId,
-                    })
+                    userState.changeAvatarEverywhere(avatarId, account, db);
                 }
 
             } catch(error) {
@@ -225,14 +236,12 @@ const createUserState = () => {
 
         deleteAvatar : async() => {
             try {
-                const [account,storage,,] = start();
+                const [account,storage,db,] = start();
 // delete entry in the db
                 const avatarId = (await account.getPrefs()).avatar_id;
                 console.log(avatarId)
                 await storage.deleteFile('649aee3bd70a6aa2cb34', avatarId);
-                await account.updatePrefs({
-                    avatar_id : '',
-                })
+                userState.changeAvatarEverywhere('', account,db);
             } catch(error) {
                 console.error(error);
             }
