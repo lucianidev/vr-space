@@ -12,7 +12,7 @@
   export let price;
   export let images;
   export let avatar;
-
+  export let id;
 
 </script>
 
@@ -32,6 +32,8 @@
     <h2 class="card-title">{title}</h2>  
     <p>{cutText(description)}</p>
     <p>{`${price}$`}</p>
-    <Button insideText="buy"></Button>
+    <a href={`/product/${id}`}>
+      <Button insideText="buy"></Button>
+    </a>
   </div>
 </div>

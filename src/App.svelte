@@ -8,6 +8,7 @@ import Signup from "./pages/Signup.svelte";
 import Login from "./pages/Login.svelte";
 import SearchPageResult from "./pages/SearchPageResult.svelte";
 import ProfilePage from "./pages/ProfilePage.svelte";
+import ProductPage from "./pages/ProductPage.svelte";
 
 let page;
 let params;
@@ -17,13 +18,17 @@ router('/signup', () => page = Signup)
 router('/marketplace', () => page = UserMarketplace)
 router('/dashboard', () => page = Dashboard)
 router('/search/:where/:what', (ctx,next) => {
-    params = ctx.params
+    params = ctx.params;
     next();
 },() => page = SearchPageResult)
 router('/profile/:name',(ctx,next) => {
-    params = ctx.params
+    params = ctx.params;
     next();
 },() => page = ProfilePage)
+router('/product/:id',(ctx,next) => {
+    params = ctx.params;
+    next();
+}, () => page = ProductPage);
 
 router.start();
 </script>

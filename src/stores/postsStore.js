@@ -109,7 +109,7 @@ const createPostsStore = () => {
         listProducts: async () => {
             try {
                 const [database, ] = start();
-                return await database.listDocuments("6492fa03477ec93ae650", "649c37a515560d0fd35f")
+                return (await database.listDocuments("6492fa03477ec93ae650", "649c37a515560d0fd35f")).documents;
             } catch (error) {
                 console.error(error);
             }
@@ -200,6 +200,16 @@ const createPostsStore = () => {
                 return likes;
             } catch (error) {
                 (error)
+            }
+        },
+
+        getProductDetail : async (productId) => {
+            try {
+                const [database,] = start();
+                const productDetails = (await database.getDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f',productId));
+                return productDetails;
+            } catch (error) {
+                console.error(error);
             }
         },
         /*
