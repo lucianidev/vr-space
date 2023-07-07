@@ -21,9 +21,6 @@
     avatar = postsStore.getUserAvatar(name).then(data => data);
   });
 
-  postsStore.getUserProducts(name).then(data => console.log(data));
-  postsStore.getUserPosts(name).then(data => console.log(data));
-  console.log(avatar)
 </script>
 
 {#if $userState.isLogged}

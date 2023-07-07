@@ -5,12 +5,12 @@
   import { onMount } from "svelte";
   import Search from "../../Search.svelte";
   let username = "";
+  let products = [];
   onMount(async () => {
     await userState.isLogged();
     username = await userState.getUserName();
+    products = postsStore.listProducts().then(data => data);
   });
-
-  const products = postsStore.listProducts();
 </script>
 
 {#if $userState.isLogged}
@@ -21,7 +21,7 @@
     {#await products}
       <p>loading</p>
     {:then productsInfo}
-      {#each productsInfo.documents.filter((product) => product.username != username) as product}
+      {#each productsInfo.filter(product => product.username != username) as product}
         <Product
           title={product.title}
           description={product.description}
@@ -29,6 +29,7 @@
           price={product.price}
           images={product.images_id}
           avatar={product.avatar}
+          id={product.$id}
         />
       {/each}
     {/await}
