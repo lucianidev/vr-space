@@ -37,7 +37,7 @@
     <div class="card-body">
       <div class="avatar flex items-center	justify-start">
         <div class="w-10 rounded-full">
-          <img src={avatarPreview} />
+          <Avatar avatarId={avatar} username={username}></Avatar>
         </div>
         <p class="m-2 ">{username}</p>
       </div>

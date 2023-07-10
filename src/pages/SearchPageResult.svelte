@@ -8,19 +8,11 @@
   export let params;
   let what = params.what;
   let where = params.where;
-  let searchUsers = [];
-  let productsByTitle = []
-  let productsByTag = [];
-  onMount(() => {
-  searchUsers = searchStore.searchUsers(what).then(data => data);
-  productsByTitle = searchStore.searchProductsByTitle(what).then(data => data);
-  productsByTag = searchStore.searchProductsByTag(what).then(data => data);
-  })
 </script>
 <Search />
 <div class=" flex flex-col lg:grid place-items-center w-full gap-3 grid-cols-3" id="search">
   {#if where == "users"}
-    {#await searchUsers}
+    {#await searchStore.searchUsers(what)}
       <p>loading...</p>
     {:then users}
       {#each users as user (user.$id)}
@@ -28,7 +20,7 @@
       {/each}
     {/await}
   {:else if where == "store"}
-    {#await productsByTitle}
+    {#await searchStore.searchProductsByTitle(what)}
       <p>loading...</p>
     {:then products}
       {#each products.filter((product) => product.username != $userState.username) as product (product.$id)}
@@ -43,7 +35,7 @@
       {/each}
     {/await}
   {:else if where == "tags"}
-    {#await productsByTag}
+    {#await searchStore.searchProductsByTag(what)}
       <p>loading...</p>
     {:then products}
       {#each products.filter((product) => product.username != $userState.username) as product (product.$id)}

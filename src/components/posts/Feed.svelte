@@ -10,7 +10,7 @@
   let posts = [];
   onMount(async () => {
     await userState.isLogged();
-    username = await userState.getUserName();
+    username = $userState.username
     posts = postsStore.readPosts().then(data => data);
   });
 

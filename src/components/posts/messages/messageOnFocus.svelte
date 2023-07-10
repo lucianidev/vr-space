@@ -41,13 +41,8 @@
       <div class="modal" class:modal-open={$postsStore.isOnFocus}>
         <div class="modal-box">
           <div class="avatar flex items-center justify-start">
-            <div class="w-10 rounded-full">
-              <img
-                src={
-                postsStore.preview("649aee3bd70a6aa2cb34", $postsStore.avatar)}
-              />
-            </div>
-            <p class="m-2">{$postsStore.username}</p>
+              <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size="10"></Avatar>
+              <p class="m-2">{$postsStore.username}</p>
           </div>
           <h3 class="font-bold text-lg">{$postsStore.title}</h3>
           <p class="py-4">{$postsStore.message}</p>

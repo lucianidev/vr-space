@@ -23,9 +23,12 @@
       <Avatar size="48" avatarId={$userState.avatarId}/>
       <h1 class="text-2xl my-9">{$userState.username}</h1>
     </div>
-    <div class="flex flex-col,my-9	 lg:grid place-items-center w-6/12 gap-4 grid-cols-2 my-9	">
+    <div class="flex flex-col,my-9	 lg:grid place-items-center w-6/12 gap-4 grid-cols-3 my-9	">
       <h2 class="cursor-pointer hover:underline" on:click={() => (showPosts = true)}>POSTS</h2>
       <h2 class="cursor-pointer hover:underline" on:click={() => (showPosts = false)}>PRODUCTS</h2>
+      <h2 class="cursor-pointer hover:underline">
+        <a href="dashboard/options">OPTIONS</a>
+      </h2>
     </div>
     <div
       class="flex flex-col lg:grid place-items-center w-full gap-4 grid-cols-3"

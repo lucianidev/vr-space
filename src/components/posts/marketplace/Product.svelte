@@ -32,8 +32,8 @@
     <h2 class="card-title">{title}</h2>  
     <p>{cutText(description)}</p>
     <p>{`${price}$`}</p>
-    <a href={`/product/${id}`}>
-      <Button insideText="buy"></Button>
+    <a class="btn btn-primary rounded-full" href={`/product/${id}`}>
+      Buy
     </a>
   </div>
 </div>

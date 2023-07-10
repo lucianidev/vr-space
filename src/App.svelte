@@ -10,12 +10,14 @@ import SearchPageResult from "./pages/SearchPageResult.svelte";
 import ProfilePage from "./pages/ProfilePage.svelte";
 import ProductPage from "./pages/ProductPage.svelte";
 import Options from "./pages/Settings.svelte";
+import Create from "./pages/Create.svelte";
 
 let page;
 let params;
 router('/', () => page = UserFeed)
 router('/login', () => page = Login)
 router('/signup', () => page = Signup)
+router('/create',() =>  page = Create)
 router('/marketplace', () => page = UserMarketplace)
 router('/dashboard', () => page = Dashboard)
 router('/dashboard/options', () => page = Options)

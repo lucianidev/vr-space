@@ -9,9 +9,9 @@
   let password = "";
 </script>
 
-<Form formName="Login" action={async() => await userState.login(email,password)}>
+<Form formName="Login">
   <FormInput bind:input={email} inputName="Email" />
   <FormPassword bind:input={password} inputName="Password" />
-  <Button insideText="Signup" type="submit" action={() => router.redirect('/')}/>
+  <Button insideText="Signup" type="submit" action={async() => await userState.login(email,password)}/>
   <a href="/signup" class="flex justify-center items-center hover:underline">New here? Sign in now!</a>
 </Form>

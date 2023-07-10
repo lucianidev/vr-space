@@ -1,4 +1,5 @@
 import {
+    get,
     writable
 } from "svelte/store";
 import {
@@ -59,10 +60,9 @@ const createPostsStore = () => {
                         ID.unique(), {
                             title: title,
                             description: description,
-                            username: await userState.getUserName(),
-                            date: new Date(Date.now()).toISOString(),
+                            username: get(userState).username,
                             image_id: createFile,
-                            avatar_id: (await userState.getAvatar()),
+                            avatar_id: get(userState).avatarId,
                         }
                     );
                 } else {
@@ -72,8 +72,7 @@ const createPostsStore = () => {
                         ID.unique(), {
                             title: title,
                             description: description,
-                            username: await userState.getUserName(),
-                            date: new Date(Date.now()).toISOString(),
+                            username: get(userState).username,
                             image_id: null,
                         }
                     );
@@ -93,11 +92,11 @@ const createPostsStore = () => {
                     ID.unique(), {
                         title: title,
                         description: description,
-                        username: await userState.getUserName(),
+                        username: get(userState).username,
                         images_id: await imagesToId(storage, file, ID.unique()),
                         price: price,
                         tags: splitTags(tags),
-                        avatar_id: (await userState.getAvatar()),
+                        avatar_id: get(userState).avatarId,
                     }
                 );
 
@@ -119,7 +118,7 @@ const createPostsStore = () => {
             try {
                 const [database, ] = start();
                 await database.createDocument('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', ID.unique(), {
-                    from: await userState.getUserName(),
+                    from:  get(userState).username,
                     post_id: postId,
                     to: likedPostUser,
                 });
@@ -178,7 +177,7 @@ const createPostsStore = () => {
                 (postId)
                 const [database, ] = start();
                 const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
-                    Query.equal("from", await userState.getUserName()),
+                    Query.equal("from", get(userState).username),
                     Query.equal("post_id", postId),
                 ])).documents.length;
 
