@@ -9,6 +9,7 @@ import Login from "./pages/Login.svelte";
 import SearchPageResult from "./pages/SearchPageResult.svelte";
 import ProfilePage from "./pages/ProfilePage.svelte";
 import ProductPage from "./pages/ProductPage.svelte";
+import Options from "./pages/Settings.svelte";
 
 let page;
 let params;
@@ -17,6 +18,7 @@ router('/login', () => page = Login)
 router('/signup', () => page = Signup)
 router('/marketplace', () => page = UserMarketplace)
 router('/dashboard', () => page = Dashboard)
+router('/dashboard/options', () => page = Options)
 router('/search/:where/:what', (ctx,next) => {
     params = ctx.params;
     next();
