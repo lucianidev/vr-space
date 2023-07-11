@@ -1,4 +1,5 @@
 <script>
+  import router from "page"
   import Message from "./messages/Message.svelte";
   import { onMount } from "svelte";
   import { userState } from "../../stores/userStores";
@@ -48,5 +49,6 @@
   </div>
   <MessageOnFocus />
 {:else}
-  <p>login my man, remeber router</p>
+  <p>rederecting....</p>
+  {router.redirect('/signup')}
 {/if}

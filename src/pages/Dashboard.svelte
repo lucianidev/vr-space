@@ -1,11 +1,11 @@
 <script>
+  import router from "page"
   import { onMount } from "svelte";
   import Message from "../components/posts/messages/Message.svelte";
   import Product from "../components/posts/marketplace/Product.svelte";
   import Avatar from "../components/Avatar.svelte";
   import { userState } from "../stores/userStores";
-  import LoginForm from "../components/form/formVariations/LoginForm.svelte";
-  import AvatarChange from "../components/form/formVariations/AvatarChange.svelte";
+
   let posts = [];
   let products = [];
   $: showPosts = true;
@@ -72,5 +72,6 @@
     </div>
   </div>
 {:else}
-  <p>redirecting to signup</p>
+<p>redirecting...</p>
+{router.redirect('signup')}
 {/if}

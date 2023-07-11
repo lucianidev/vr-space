@@ -92,7 +92,7 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <a class="btn rounded-full bg-primary text-white">Get started</a>
+      <a href="/signup" class="btn rounded-full bg-primary text-white">Get started</a>
     </div>
   </div>
 {/if}

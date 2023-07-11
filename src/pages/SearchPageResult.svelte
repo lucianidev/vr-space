@@ -1,4 +1,5 @@
 <script>
+  import router from "page"
   import { onMount } from "svelte";
   import { searchStore } from "../stores/searchStore";
   import Search from "../components/Search.svelte";
@@ -8,8 +9,12 @@
   export let params;
   let what = params.what;
   let where = params.where;
+
+  onMount(async () => {
+    await userState.isLogged();
+  });
 </script>
-<Search />
+{#if $userState.isLogged}
 <div class=" flex flex-col lg:grid place-items-center w-full gap-3 grid-cols-3" id="search">
   {#if where == "users"}
     {#await searchStore.searchUsers(what)}
@@ -51,3 +56,8 @@
     {/await}
   {/if}
 </div>
+{:else}
+<p>redirecting...</p>
+{router.redirect('signup')}
+{/if}
+<Search />

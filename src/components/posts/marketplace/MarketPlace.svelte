@@ -1,4 +1,5 @@
 <script>
+  import router from "page"
   import Product from "./Product.svelte";
   import { postsStore } from "../../../stores/postsStore";
   import { userState } from "../../../stores/userStores";
@@ -35,5 +36,6 @@
     {/await}
   </div>
 {:else}
-  <p>logjn please</p>
+<p>rederecting....</p>
+{router.redirect('/signup')}
 {/if}
