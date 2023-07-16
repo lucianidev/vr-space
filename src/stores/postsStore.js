@@ -97,6 +97,7 @@ const createPostsStore = () => {
                         price: price,
                         tags: splitTags(tags),
                         avatar_id: get(userState).avatarId,
+                        email : get(userState).email,
                     }
                 );
 

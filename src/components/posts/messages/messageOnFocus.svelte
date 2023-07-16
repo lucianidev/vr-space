@@ -10,6 +10,8 @@
     .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
     .setProject("648f118e178c4607ca18"); // Your project ID
   // i valori so reattivis
+
+  console.log($postsStore.avatar);
 </script>
 {#if $postsStore.image}
   <div class="grid place-items-center z-50">

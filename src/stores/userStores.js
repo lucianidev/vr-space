@@ -4,6 +4,7 @@ import router from "page"
 const createUserState = () => {
     const { set, update, subscribe } = writable({
         username: "",
+        email : "",
         isLogged: false,
         avatarId : "",
     });
@@ -35,12 +36,14 @@ const createUserState = () => {
                         username: userdata.name,
                         isLogged: true,
                         avatarId : avatarId,
+                        email : userdata.email,
                     });
                 } else {
                     set({
                         username: "",
                         isLogged: false,
-                        avatarId : ""
+                        avatarId : "",
+                        email : "",
                     });
                 }
             } catch (error) {
@@ -48,6 +51,7 @@ const createUserState = () => {
                     username: "",
                     isLogged: false,
                     avatarId : "",
+                    email : "",
                 });
             }
         },
@@ -64,6 +68,7 @@ const createUserState = () => {
                     username: username,
                     isLogged: true,
                     avatarId : "",
+                    email : email,
                 });
 
                 await userState.login(email, password);
@@ -72,6 +77,7 @@ const createUserState = () => {
                     username: "",
                     isLogged: false,
                     avatarId : "",
+                    email : "",
                 });
             }
         },
@@ -86,6 +92,7 @@ const createUserState = () => {
                     username: userInfo.name,
                     isLogged: true,
                     avatarId : avatarId,
+                    email : userInfo.email,
                 });
                 router.redirect('/');
             } catch(error) {
@@ -93,6 +100,7 @@ const createUserState = () => {
                     username: "",
                     isLogged: false,
                     avatarId : "",
+                    email : "",
                 });
             }
         },
@@ -103,12 +111,16 @@ const createUserState = () => {
                 set({
                     username: "",
                     isLogged: false,
+                    email : "",
                 });
+                router.redirect('/signup')
             } catch(error) {
                 set({
                     username: "",
                     isLogged: false,
+                    email : "",
                 });
+                router.redirect('/signup')
             }
         },
 
@@ -268,15 +280,16 @@ const createUserState = () => {
         updateAvatar : async(file) => {
             // i know this is bad, really bad but no time to refactor LMAO!!!!!:)
             try {
+                console.log(file);
                 const [account,storage,db] = start();
 
                 const currentAvatarId = (await account.getPrefs()).avatar_id;
 
                 if(currentAvatarId) {
-                    storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
+                    //storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
 
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
-                    userState.changeAvatarEverywhere(avatarId, account, db);
+                    await userState.changeAvatarEverywhere(avatarId, account, db);
                     
                 } else {
                     const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
