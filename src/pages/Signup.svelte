@@ -6,9 +6,7 @@
 
   onMount(async() => {
 
-    await userState.isLogged();
-    if(!$userState.isLogged) return;
-    router.redirect('/')
+
   })
 </script>
 

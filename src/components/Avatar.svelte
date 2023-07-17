@@ -5,8 +5,8 @@
   export let size;
 </script>
 
-<div class="avatar">
-  <div class="{`w-${size}`} rounded-full">
+<div class="avatar items-center justify-center">
+  <div class="{`w-${size}`} rounded-full flex">
     {#if avatarId}
       <img src={postsStore.preview("649aee3bd70a6aa2cb34", avatarId)} alt="" />
     {:else}
@@ -16,4 +16,5 @@
       />
     {/if}
   </div>
+  <slot></slot>
 </div>

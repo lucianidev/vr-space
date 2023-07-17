@@ -73,5 +73,5 @@
   </div>
 {:else}
 <p>redirecting...</p>
-{router.redirect('signup')}
+
 {/if}

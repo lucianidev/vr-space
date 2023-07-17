@@ -16,9 +16,9 @@
 
 {#if $userState.isLogged}
 <Search></Search>
-  <div
-    class=" flex flex-col lg:grid place-items-center w-full gap-4 grid-cols-3"
-  >
+<div class="p-4 sm:ml-64">
+  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+    <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-1">
     {#await products}
       <p>loading</p>
     {:then productsInfo}
@@ -35,7 +35,8 @@
       {/each}
     {/await}
   </div>
+  </div>
+</div>
 {:else}
 <p>rederecting....</p>
-{router.redirect('/signup')}
 {/if}

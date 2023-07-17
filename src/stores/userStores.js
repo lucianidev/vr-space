@@ -53,6 +53,7 @@ const createUserState = () => {
                     avatarId : "",
                     email : "",
                 });
+                router.redirect('/signup')
             }
         },
 
