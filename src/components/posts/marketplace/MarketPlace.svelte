@@ -16,9 +16,8 @@
 
 {#if $userState.isLogged}
 <Search></Search>
-<div class="p-4 sm:ml-64">
-  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-    <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-1">
+
+    <div class="grid grid-cols-1 gap-4 mb-4 lg:grid-cols-3">
     {#await products}
       <p>loading</p>
     {:then productsInfo}
@@ -35,8 +34,6 @@
       {/each}
     {/await}
   </div>
-  </div>
-</div>
 {:else}
 <p>rederecting....</p>
 {/if}

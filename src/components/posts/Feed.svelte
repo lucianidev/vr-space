@@ -18,11 +18,8 @@
 
 {#if $userState.isLogged}
   <Search />
-  <div class="p-4 sm:ml-64">
-    <div
-      class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
-    >
-      <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-1">
+
+      <div class="grid grid-cols-1 place-items-center gap-4 mb-4 lg:grid-cols-3">
         {#await posts}
           <p>loading</p>
         {:then postsInfo}
@@ -47,10 +44,7 @@
           {/each}
         {/await}
       </div>
-    </div>
-  </div>
   <MessageOnFocus />
 {:else}
   <p>rederecting....</p>
-  {router.redirect("/signup")}
 {/if}

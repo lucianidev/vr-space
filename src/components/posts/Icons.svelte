@@ -10,7 +10,7 @@
     // implement change of heart on click
 </script>
 
-<ul class="flex justify-between w-full">
+<ul class="flex justify-between items-end w-full">
     <li class="w-8 h-8	 m-1">
         <img class="" src="../../../assets/heart.svg" alt="" on:click={() => postsStore.ispostIsLiked(postdId).then(async isLiked => {
             if(isLiked) return;
@@ -20,9 +20,5 @@
 
     <li class="	 m-1">
         <img class="" src="../../../assets/send.svg" alt="">
-    </li>
-
-    <li class="	 m-1">
-        <img class="" src="../../../assets/report.svg" alt="">
     </li>
 </ul>

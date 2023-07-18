@@ -16,3 +16,10 @@
     -webkit-text-fill-color: transparent; 
     -moz-text-fill-color: transparent;
 }
+
+.gradient-border {
+    background: linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(45deg, #5350F6, #E662FE) border-box;
+    border: 5px solid transparent;
+    border-radius: 1rem;
+  }
