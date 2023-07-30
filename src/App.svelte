@@ -20,7 +20,7 @@ router('/signup', () => page = Signup)
 router('/create',() =>  page = Create)
 router('/marketplace', () => page = UserMarketplace)
 router('/dashboard', () => page = Dashboard)
-router('/dashboard/options', () => page = Options)
+router('/settings', () => page = Options)
 router('/search/:where/:what', (ctx,next) => {
     params = ctx.params;
     next();

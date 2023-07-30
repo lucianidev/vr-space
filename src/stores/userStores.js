@@ -23,6 +23,7 @@ const createUserState = () => {
 
 
     return {
+        set,
         subscribe,
 
         isLogged: async () => {
@@ -30,7 +31,7 @@ const createUserState = () => {
                 const [account,,] = start();
                 const userdata = await account.get();
                 const avatarId = (await account.getPrefs()).avatar_id;
-
+                console.log(await account.getPrefs());
                 if (userdata) {
                     set({
                         username: userdata.name,
@@ -136,6 +137,8 @@ const createUserState = () => {
         },
 
         updateEverywhere : async(what, value,) => {
+            console.log(what);
+            console.log(value);
             const [,,db] = start();
             const messages = await userState.getCurrentUserPosts();
             const products = await userState.getCurrentuserProducts();
@@ -167,8 +170,10 @@ const createUserState = () => {
                     avatar_id: product.avatar_id,
                 });
             })
+            console.log(!profile);
 
             if(!profile) {
+                console.log(get(userState).avatarId);
                 await db.createDocument('64a553299087271a8aea', '64a5533cd148431c27fd', ID.unique(), {
                     username : get(userState).username,
                     avatar_id : get(userState).avatarId,
@@ -283,22 +288,37 @@ const createUserState = () => {
             try {
                 console.log(file);
                 const [account,storage,db] = start();
-
+                console.log((await account.getPrefs()))
                 const currentAvatarId = (await account.getPrefs()).avatar_id;
-
                 if(currentAvatarId) {
-                    //storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
-
-                    const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
-                    await userState.changeAvatarEverywhere(avatarId, account, db);
-                    
+                    storage.deleteFile('649aee3bd70a6aa2cb34',currentAvatarId);
+                    const newAvatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
+                    set({
+                        username: get(userState).username,
+                        email : get(userState).email,
+                        isLogged: get(userState).isLogged,
+                        avatarId : newAvatarId,
+                    })
+                    await account.updatePrefs({
+                        avatar_id : newAvatarId,
+                    });
+                    await userState.changeAvatarEverywhere(newAvatarId);                   
                 } else {
-                    const avatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
-                    userState.changeAvatarEverywhere(avatarId, account, db);
+                    const newAvatarId = (await storage.createFile('649aee3bd70a6aa2cb34',ID.unique(),file)).$id;
+                    set({
+                        username: get(userState).username,
+                        email : get(userState).email,
+                        isLogged: get(userState).isLogged,
+                        avatarId : newAvatarId,
+                    })                    
+                    await account.updatePrefs({
+                        avatar_id : newAvatarId,
+                    })              
+                    console.log(await account.getPrefs());
+                    userState.changeAvatarEverywhere(newAvatarId);
                 }
-
             } catch(error) {
-                return;
+                console.error(error);
             }
         },
 
