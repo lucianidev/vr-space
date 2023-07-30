@@ -5,15 +5,22 @@ import FormInput from "../components/form/FormInput.svelte";
   import FormPassword from "../components/form/FormPassword.svelte";
   import AvatarChange from "../components/form/formVariations/AvatarChange.svelte";
   import { userState } from "../stores/userStores";
+  import PasswordModal from "../components/PasswordModal.svelte";
+  import User from "../components/User.svelte";
+  import { onMount } from "svelte";
     let username = "";
     let email = "";
-    let password = "";
     let newPassword = "";
-    let oldPassword = "";
+
+
+    onMount(async() => {
+        await userState.isLogged();
+    })
 </script>
 
 <!-- component -->
 <!-- component -->
+{#if $userState.isLogged}
 <div class="text-white min-h-screen pt-2 my-16">
     <div class="container mx-auto">
         <div class="inputs w-full max-w-2xl p-6 mx-auto">
@@ -27,13 +34,19 @@ import FormInput from "../components/form/FormInput.svelte";
                     
                     <div class='w-full md: px-3 mb-6'>
                         <FormInput inputName="Email address" bind:input={email}></FormInput>
-                        <FormPassword inputName="Insert password" bind:input={password}></FormPassword>
-                        <Button insideText="Change" type="submit" action={async() => await userState.changeEmail(email, password)}></Button>
+                        <PasswordModal let:password id="email">
+                            <Button insideText="Change" type="submit" action={async() => await userState.changeEmail(email, password)}></Button>
+                            {password}
+                        </PasswordModal>      
+                        <a href="#password_email" class="btn btn-primary">Change</a>                  
                     </div>
                     <div class='w-full md: px-3 mb-6 '>
-                        <FormPassword inputName="Old password" bind:input={oldPassword}></FormPassword>
                         <FormPassword inputName="New password" bind:input={newPassword}></FormPassword>
-                        <Button insideText="Change" type="submit" action={async() => await userState.changePassword(oldPassword, newPassword)}></Button>
+                        <PasswordModal let:password let:updatePassword id="newPassword">
+                            <Button  insideText="Change" type="submit" action={async() => await userState.changePassword(password, newPassword)}></Button>
+                            {password}
+                        </PasswordModal>
+                        <a href="#password_newPassword" class="btn btn-primary">Change</a>              
                     </div>
 
                     <div class='w-full md: px-3 mb-6 '>
@@ -44,3 +57,8 @@ import FormInput from "../components/form/FormInput.svelte";
         </div>
     </div>
 </div>
+{:else}
+<p>redirecting to signup</p>
+
+{/if}
+<!-- Put this part before </body> tag -->
