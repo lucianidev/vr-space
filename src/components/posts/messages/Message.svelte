@@ -29,9 +29,8 @@
         <p class="m-2 ">{username}</p>
       </div>
         <figure><img src={postsStore.preview('6499546407c2dc5f2d10', image)} alt="Shoes" /></figure>
-      <h2 class="p-12 card-title gradient-text">{title}</h2>
-      <p class="p-12">{message}</p>
-      <Icons></Icons>
+      <h2 class="py-1 card-title gradient-text">{title}</h2>
+      <p class="py-5">{message}</p>
       <slot></slot>
     </div>
 
@@ -39,13 +38,12 @@
     <div class="card-body">
       <div class="avatar flex items-center	justify-start">
         <div class="w-10 rounded-full">
-          <Avatar avatarId={avatar} username={username}></Avatar>
+          <Avatar avatarId={avatar} username={username} size="10"></Avatar>
         </div>
         <p class="m-2 ">{username}</p>
       </div>
       <h2 class="card-title gradient-text">{title}</h2>
       <p>{cutText(message)}</p>
-      <Icons></Icons>
       <slot></slot>
     </div>
   {/if}
