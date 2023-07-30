@@ -16,10 +16,6 @@
   }).then((paypal) => {
     paypal
       .Buttons({
-        style: {
-          color: "gold",
-          shape: "pill",
-        },
         createOrder: async () => {
           // Set up the transaction
           console.log(payload);
@@ -61,13 +57,15 @@
   });
 </script>
 
-<div
-  style="background-color:black; padding:5px; border-radius:5px;"
-  id="paypal-button-container"
-/>
+<a href="#my_modal_8" class="btn gradient-border mt-2">Buy now</a>
+<!-- Put this part before </body> tag -->
+<div class="modal" id="my_modal_8">
+  <div class="modal-box bg-neutral-900">
+    <div id="paypal-button-container" style="margin-top:20px; background-color:white; padding:5px; border-radius:5px;"></div>
+    <a href="#" class="btn mt-3">close</a>
+    </div>
+  </div>
 
 <style>
-  #paypal-button-container {
-    margin: 30px 0;
-  }
+
 </style>
