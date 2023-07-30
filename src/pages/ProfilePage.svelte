@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Message from "../components/posts/messages/Message.svelte";
+  import Icons from "../components/posts/Icons.svelte";
   import Product from "../components/posts/marketplace/Product.svelte";
   import Avatar from "../components/Avatar.svelte";
   import { postsStore } from "../stores/postsStore";
@@ -72,7 +73,9 @@
               message={post.description}
               image={post.image_id}
               avatar={post.avatar_id}
-            />
+            >
+            <Icons></Icons>
+          </Message>
           {/each}
           <MessageOnFocus />
         {/await}
