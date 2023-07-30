@@ -16,10 +16,9 @@
 </script>
 
 {#if $userState.isLogged}
+<Search />
   <div class="p-4 sm:ml-64">
-    <div
-      class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
-    >
+
       <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-3">
         {#if where == "users"}
           {#await searchStore.searchUsers(what)}
@@ -60,10 +59,9 @@
             {/each}
           {/await}
         {/if}
-      </div>
     </div>
   </div>
 {:else}
   <p>redirecting...</p>
 {/if}
-<Search />
+
