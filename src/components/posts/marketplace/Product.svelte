@@ -19,19 +19,21 @@
 <div
   transition:fade
   on:click|stopPropagation
-  class="card bg-base-100 w-full shadow-xl"
+  class="card  gradient-border rounded-2xl w-full shadow-xl"
 >
-  <div class="card-body">
+  <div class="card-body justify-between">
     <div class="avatar flex items-center justify-start">
       <div class="w-10 rounded-full">
-        <Avatar avatarId={avatar} username={username}></Avatar>
+        <Avatar avatarId={avatar} username={username} size="10"></Avatar>
       </div>
       <p class="m-2">{username}</p>
     </div>
     <Carousel images={images}></Carousel>
-    <h2 class="card-title">{title}</h2>  
-    <p>{cutText(description)}</p>
-    <p>{`${price}$`}</p>
+    <div>
+      <h2 class="card-title">{title}</h2>  
+      <p>{description}</p>
+      <div>{`${price}$`}</div>
+    </div>
     <a class="btn btn-primary rounded-full" href={`/product/${id}`}>
       Buy
     </a>
