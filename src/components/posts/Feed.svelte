@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { userState } from "../../stores/userStores";
   import MessageOnFocus from "./messages/MessageOnFocus.svelte";
+  import Icons from "./Icons.svelte";
   import { postsStore } from "../../stores/postsStore";
   import Search from "../Search.svelte";
 
@@ -40,7 +41,9 @@
               message={post.description}
               image={post.image_id}
               avatar={post.avatar_id}
-            />
+            >
+            <Icons></Icons>
+          </Message>
           {/each}
         {/await}
       </div>
