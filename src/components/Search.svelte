@@ -3,7 +3,7 @@ let searchSubject = "";
 $ : show = false;
 </script>
 
-<div class="w-full flex justify-center items-center flex-col my-5">
+<div class="w-full flex justify-center items-center flex-col my-10">
     <div class="form-control items-center justify-center w-full lg:w-6/12">
         <div class="input-group justify-center items-center">
           <input type="text" placeholder="Search…" bind:value={searchSubject} on:click={show = true} class="input input-bordered w-full" />
