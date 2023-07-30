@@ -7,7 +7,7 @@
     <figure class="relative w-full">
   
       <!-- carousel -->
-      <div class="carousel w-full h-60 md:h-60 md:w-auto">
+      <div class="carousel w-full h-full lg:h-72 w-9/12">
         {#each images as imageId}
         <div id={`item-${imageId}`} class="carousel-item w-full">
             <img src={postsStore.preview('6499546407c2dc5f2d10', imageId)} class="w-full" />
