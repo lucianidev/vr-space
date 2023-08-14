@@ -3,7 +3,6 @@ var router = express.Router();
 const sdk = require('node-appwrite');
 const Payments = require('../utils/Payments');
 const Email = require('../utils/Email');
-const daisyui = require('daisyui');
 const client = new sdk.Client();
 client.setEndpoint('http://127.0.0.1:81/v1') // Your API Endpoint
   .setProject('648f118e178c4607ca18') // Your project ID
@@ -45,7 +44,7 @@ const productEmail = new Email();
 /* GET home page. */
 router.post('/request', async (req, res,) => {
   const { id } = req.body;
-  console.log(id);
+
   const price = (await getProductdetails(id)).price;
   const createPayment = await
     payment.
@@ -69,7 +68,7 @@ router.post('/capture', async (req, res) => {
   productEmail
     .setSubject(`${new Date()} bought product`)
     .setContent('you bought a product')
-    .setReceiver('lucianidev@gmail.com')
+    .setReceiver(email)
     .setEmail('lucianidev@gmail.com')
     .setAttachements(await productImages)
     .setPassword('ickypxlashoohmju')
