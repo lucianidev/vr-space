@@ -276,6 +276,17 @@ const createPostsStore = () => {
             }
         },
 
+        getPost : async(id) => {
+            console.log(id);
+            try {
+                const [database, storage] = start();
+                const post = await database.getDocument("6492fa03477ec93ae650","6492fa0b59b3b4f615fa", id);
+                return post;
+            } catch (error) {
+                console.error(error)
+            }
+        },
+
         readPosts: async () => {
             try {
                 const [database, storage] = start();

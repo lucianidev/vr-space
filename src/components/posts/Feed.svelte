@@ -42,7 +42,6 @@
               image={post.image_id}
               avatar={post.avatar_id}
             >
-            <Icons></Icons>
           </Message>
           {/each}
         {/await}

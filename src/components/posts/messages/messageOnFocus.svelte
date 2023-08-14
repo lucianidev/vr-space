@@ -15,7 +15,7 @@
 </script>
 {#if $postsStore.image}
   <div class="grid place-items-center z-50">
-      <div class="modal" class:modal-open={$postsStore.isOnFocus}>
+      <div class="modal" class:modal-open={$postsStore.isOnFocus} on:click={() =>   postsStore.removeFocus()}>
         <div class="card w-2/4 bg-black gradient-border rounded-2xl shadow-xl">
         <div class="modal-box">
           <div class="card-body bg-black gradient-border rounded-2xl shadow-xl">
@@ -39,7 +39,7 @@
   </div>
 {:else}
 <div class="grid place-items-center z-50">
-  <div class="modal" class:modal-open={$postsStore.isOnFocus}>
+  <div class="modal" class:modal-open={$postsStore.isOnFocus} on:click={() =>   postsStore.removeFocus()}>
     <div class="card w-full lg:w-2/4 ">
     <div class="modal-box bg-black gradient-border rounded-2xl shadow-xl">
       <div class="card-body">
@@ -56,11 +56,4 @@
 </div>
 </div>
 {/if}
-
-
-<svelte:window
-  on:click={() => {
-    postsStore.removeFocus();
-  }}
-/>
 

@@ -10,6 +10,7 @@ import SearchPageResult from "./pages/SearchPageResult.svelte";
 import ProfilePage from "./pages/ProfilePage.svelte";
 import ProductPage from "./pages/ProductPage.svelte";
 import Options from "./pages/Settings.svelte";
+import Post from "./pages/Post.svelte";
 import Create from "./pages/Create.svelte";
 
 let page;
@@ -33,6 +34,10 @@ router('/product/:id',(ctx,next) => {
     params = ctx.params;
     next();
 }, () => page = ProductPage);
+router('/share/:id',(ctx,next) => {
+    params = ctx.params;
+    next();
+}, () => page = Post);
 
 router.start();
 </script>
