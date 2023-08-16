@@ -20,7 +20,7 @@
         <div class="modal-box">
           <div class="card-body bg-black gradient-border rounded-2xl shadow-xl">
             <div class="avatar flex items-center justify-start">
-              <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size="10"></Avatar>
+              <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size={"small"}></Avatar>
               <p class="m-2">{$postsStore.username}</p>
             </div>
             <figure>
@@ -44,7 +44,7 @@
     <div class="modal-box bg-black gradient-border rounded-2xl shadow-xl">
       <div class="card-body">
         <div class="avatar flex items-center justify-start">
-          <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size="10"></Avatar>
+          <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size={"small"}></Avatar>
           <p class="m-2">{$postsStore.username}</p>
         </div>
         <h2 class="card-title">{$postsStore.title}</h2>

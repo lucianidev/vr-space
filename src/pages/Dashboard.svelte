@@ -19,12 +19,12 @@
 </script>
 
 {#if $userState.isLogged}
-  <div class="grid place-items-center">
+  <div class="grid place-items-center my-3">
     <div class="flex flex-col lg: flex w-3/12 items-center justify-between">
-      <Avatar size="48" avatarId={$userState.avatarId}/>
+      <Avatar size={"big"} avatarId={$userState.avatarId}/>
       <h1 class="text-2xl my-9">{$userState.username}</h1>
     </div>
-    <div class="flex flex-col,my-9	 lg:grid place-items-center w-6/12 gap-4 grid-cols-2 my-9	">
+    <div class="flex flex-col my-9	 lg:grid place-items-center w-full gap-4 grid-cols-2 my-9	">
       <h2 class="cursor-pointer hover:underline" on:click={() => (showPosts = true)}>POSTS</h2>
       <h2 class="cursor-pointer hover:underline" on:click={() => (showPosts = false)}>PRODUCTS</h2>
     </div>
@@ -42,8 +42,9 @@
               message={post.description}
               image={post.image_id}
               avatar={post.avatar_id}
+              showActions={true}
             >
-            <PostStats likes={post.likes}></PostStats>
+            <PostStats id={post.$id} likes={post.likes}></PostStats>
           </Message>
           {/each}
         {/await}
@@ -60,6 +61,7 @@
               images={product.images_id}
               avatar={product.avatar_id}
               id={product.$id}
+              showActions={true}
             />
           {/each}
         {/await}

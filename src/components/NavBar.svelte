@@ -62,7 +62,7 @@
 
     <div class="flex items-start justify-between p-4">
       <Notifications></Notifications>
-      <Avatar size={10} avatarId={$userState.avatarId} username={$userState.username}>
+      <Avatar size={"small"} avatarId={$userState.avatarId} username={$userState.username}>
         <span class="m-1 text-xl">{$userState.username}</span>
       </Avatar>
 

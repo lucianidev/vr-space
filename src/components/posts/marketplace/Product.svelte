@@ -13,7 +13,7 @@
   export let images;
   export let avatar;
   export let id;
-
+  export let showActions;
 </script>
 
 <div
@@ -22,11 +22,17 @@
   class="card  gradient-border rounded-2xl w-full shadow-xl"
 >
   <div class="card-body justify-between">
-    <div class="avatar flex items-center justify-start">
-      <div class="w-10 rounded-full">
-        <Avatar avatarId={avatar} username={username} size="10"></Avatar>
-      </div>
+    <div class="flex items-center	justify-center">
+        <Avatar avatarId={avatar} username={username} size={"small"}></Avatar>
       <p class="m-2">{username}</p>
+      {#if showActions}
+      <div class="dropdown dropdown-left">
+        <label tabindex="0" class="btn m-1 bg-black">Options</label>
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a>Delete</a></li>
+        </ul>
+      </div>
+    {/if}
     </div>
     <Carousel images={images}></Carousel>
     <div>

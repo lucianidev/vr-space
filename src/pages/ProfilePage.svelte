@@ -28,7 +28,7 @@
   <div class="grid place-items-center">
     <div class="flex flex-col lg: flex w-3/12 items-center justify-between">
       {#await avatar then avatarId}
-      <Avatar size="48" avatarId={avatarId} />
+      <Avatar size={"big"} avatarId={avatarId} />
       {/await}
       <h1 class="text-2xl my-9">{name}</h1>
     </div>
