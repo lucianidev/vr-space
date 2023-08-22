@@ -7,7 +7,9 @@ import {
     Databases,
     Storage,
     Query,
-    ID
+    Permission,
+    ID,
+    Role,
 } from "appwrite";
 import {
     splitTags
@@ -58,23 +60,35 @@ const createPostsStore = () => {
                         "6492fa03477ec93ae650",
                         "6492fa0b59b3b4f615fa",
                         ID.unique(), {
-                            title: title,
-                            description: description,
-                            username: get(userState).username,
-                            image_id: createFile,
-                            avatar_id: get(userState).avatarId,
-                        }
+                        title: title,
+                        description: description,
+                        username: get(userState).username,
+                        image_id: createFile,
+                        avatar_id: get(userState).avatarId,
+                    },
+                    
+                    [
+                        Permission.delete(Role.user(get(userState).id)),
+                        Permission.update(Role.user(get(userState).id)),
+                    ]
                     );
                 } else {
                     await database.createDocument(
                         "6492fa03477ec93ae650",
                         "6492fa0b59b3b4f615fa",
-                        ID.unique(), {
+                        ID.unique(),
+                        {
                             title: title,
                             description: description,
                             username: get(userState).username,
                             image_id: null,
-                        }
+                            avatar_id: get(userState).avatarId,
+                        },
+
+                        [
+                            Permission.delete(Role.user(get(userState).id)),
+                            Permission.update(Role.user(get(userState).id)),
+                        ]
                     );
                 }
             } catch (error) {
@@ -90,15 +104,19 @@ const createPostsStore = () => {
                     "6492fa03477ec93ae650",
                     "649c37a515560d0fd35f",
                     ID.unique(), {
-                        title: title,
-                        description: description,
-                        username: get(userState).username,
-                        images_id: await imagesToId(storage, file, ID.unique()),
-                        price: price,
-                        tags: splitTags(tags),
-                        avatar_id: get(userState).avatarId,
-                        email : get(userState).email,
-                    }
+                    title: title,
+                    description: description,
+                    username: get(userState).username,
+                    images_id: await imagesToId(storage, file, ID.unique()),
+                    price: price,
+                    tags: splitTags(tags),
+                    avatar_id: get(userState).avatarId,
+                    email: get(userState).email,
+                },
+                    [
+                        Permission.delete(Role.user(get(userState).id)),
+                        Permission.update(Role.user(get(userState).id)),
+                    ]
                 );
 
             } catch (error) {
@@ -108,7 +126,7 @@ const createPostsStore = () => {
 
         listProducts: async () => {
             try {
-                const [database, ] = start();
+                const [database,] = start();
                 return (await database.listDocuments("6492fa03477ec93ae650", "649c37a515560d0fd35f")).documents;
             } catch (error) {
                 console.error(error);
@@ -117,9 +135,10 @@ const createPostsStore = () => {
 
         likePost: async (postId, likedPostUser) => {
             try {
-                const [database, ] = start();
+                console.log(postId, likedPostUser);
+                const [database,] = start();
                 await database.createDocument('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', ID.unique(), {
-                    from:  get(userState).username,
+                    from: get(userState).username,
                     post_id: postId,
                     to: likedPostUser,
                 });
@@ -173,18 +192,23 @@ const createPostsStore = () => {
             }
         },
 
-        ispostIsLiked: async (postId) => {
+        ispostIsLiked: async (postId,postCreator) => {
             try {
-                (postId)
-                const [database, ] = start();
+                console.log(postId);
+                const [database,] = start();
                 const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
                     Query.equal("from", get(userState).username),
                     Query.equal("post_id", postId),
                 ])).documents.length;
 
-                (likes)
-                if (likes >= 1) return true;
-                return false;
+                if (likes >= 1) return {
+                    isLiked : true,
+                };
+                return {
+                    isLiked : false,
+                    postId : postId,
+                    postCreator : postCreator,
+                };
             } catch (error) {
                 (error);
             }
@@ -192,7 +216,7 @@ const createPostsStore = () => {
 
         getPostLikes: async (postId) => {
             try {
-                const [database, ] = start();
+                const [database,] = start();
                 const likes = (await database.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', [
                     Query.equal("post_id", postId),
                 ])).documents.length;
@@ -203,10 +227,10 @@ const createPostsStore = () => {
             }
         },
 
-        getProductDetail : async (productId) => {
+        getProductDetail: async (productId) => {
             try {
                 const [database,] = start();
-                const productDetails = (await database.getDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f',productId));
+                const productDetails = (await database.getDocument('6492fa03477ec93ae650', '649c37a515560d0fd35f', productId));
                 return productDetails;
             } catch (error) {
                 console.error(error);
@@ -232,8 +256,7 @@ const createPostsStore = () => {
                     }
                 },
         */
-        deletedProduct: async () => {}, // todo
-        modifyProduct: async () => {}, // TODO
+
 
         preview: (bucketId, id) => {
             try {
@@ -244,44 +267,53 @@ const createPostsStore = () => {
                 console.error(error);
             }
         },
-        deletePost: async (id) => {
+
+
+        async modifyDocument(dbId, collectionId, id, data) {
+            console.log(dbId, collectionId, id,data);
             try {
-                const [database, ] = start();
-                await database.deleteDocument(
-                    "6492fa03477ec93ae650",
-                    "6492fa0b59b3b4f615fa",
-                    id
-                );
+                const [database] = start();
+                await database.updateDocument(dbId, collectionId, id, data);
             } catch (error) {
-                console.error(error);
+                console.error(error)
             }
         },
 
-        modifiyPost: async (title, message, id) => {
+        async removeDocument(dbId, collectionId, id, imagePresence) {
             try {
-                const [database, storage] = start();
-                await database.updateDocument("6492fa03477ec93ae650",
-                    "6492fa0b59b3b4f615fa", id, {
-                        title: title,
-                        description: message,
-                        username: userState.subscribe((data) => {
-                            return data.username
-                        }),
-                        date: new Date(Date.now()).toISOString(),
-                    }
-                );
-
+                const [database] = start();
+                await database.deleteDocument(dbId, collectionId, id);
             } catch (error) {
-                console.error(error);
+                console.error(error)
             }
         },
 
-        getPost : async(id) => {
+        async removeImage(bucketId, id) {
+            console.log(id);
+            try {
+                const [,storage] = start();
+                await storage.deleteFile(bucketId, id);
+            } catch (error) {
+                console.error(error)
+            }
+        },
+
+        async getContent(dbId, collectionId, id) {
+            try {
+                const [database] = start();
+                const post = await database.getDocument(dbId, collectionId, id);
+                return await post;
+            } catch (error) {
+                console.error(error)
+            }
+        },
+        
+        getPost: async (id) => {
             console.log(id);
             try {
                 const [database, storage] = start();
-                const post = await database.getDocument("6492fa03477ec93ae650","6492fa0b59b3b4f615fa", id);
-                return post;
+                const post = await database.getDocument("6492fa03477ec93ae650", "6492fa0b59b3b4f615fa", id);
+                return await post;
             } catch (error) {
                 console.error(error)
             }
@@ -290,7 +322,7 @@ const createPostsStore = () => {
         readPosts: async () => {
             try {
                 const [database, storage] = start();
-                const posts = (await database.listDocuments("6492fa03477ec93ae650","6492fa0b59b3b4f615fa", )).documents; 
+                const posts = (await database.listDocuments("6492fa03477ec93ae650", "6492fa0b59b3b4f615fa",)).documents;
                 return posts;
             } catch (error) {
                 console.error(error);

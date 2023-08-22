@@ -7,6 +7,7 @@ const createUserState = () => {
         email : "",
         isLogged: false,
         avatarId : "",
+        id : '',
     });
     const start = () => {
         const client = new Client();
@@ -38,6 +39,7 @@ const createUserState = () => {
                         isLogged: true,
                         avatarId : avatarId,
                         email : userdata.email,
+                        id : userdata.$id,
                     });
                 } else {
                     set({
@@ -45,6 +47,7 @@ const createUserState = () => {
                         isLogged: false,
                         avatarId : "",
                         email : "",
+                        id : '',
                     });
                 }
             } catch (error) {
@@ -53,6 +56,7 @@ const createUserState = () => {
                     isLogged: false,
                     avatarId : "",
                     email : "",
+                    id : '',
                 });
                 router.redirect('/signup')
             }
@@ -62,7 +66,7 @@ const createUserState = () => {
             
             try {
                 const [account,,] = start();
-                await account.create(ID.unique(), email, password, username);
+                const userData = await account.create(ID.unique(), email, password, username);
                 account.updatePrefs({
                     avatar_id : "",
                 });
@@ -71,6 +75,7 @@ const createUserState = () => {
                     isLogged: true,
                     avatarId : "",
                     email : email,
+                    id : userData.$id,
                 });
 
                 await userState.login(email, password);
@@ -80,6 +85,7 @@ const createUserState = () => {
                     isLogged: false,
                     avatarId : "",
                     email : "",
+                    id : '',
                 });
             }
         },
@@ -90,11 +96,13 @@ const createUserState = () => {
                 await account.createEmailSession(email, password);
                 const userInfo = await account.get();
                 const avatarId = (await account.getPrefs()).avatar_id;
+                console.log(userInfo);
                 set({
                     username: userInfo.name,
                     isLogged: true,
                     avatarId : avatarId,
                     email : userInfo.email,
+                    id : userInfo.$id,
                 });
                 router.redirect('/');
             } catch(error) {
@@ -103,6 +111,7 @@ const createUserState = () => {
                     isLogged: false,
                     avatarId : "",
                     email : "",
+                    id : '',
                 });
             }
         },
@@ -114,6 +123,7 @@ const createUserState = () => {
                     username: "",
                     isLogged: false,
                     email : "",
+                    id : '',
                 });
                 router.redirect('/signup')
             } catch(error) {
@@ -121,6 +131,7 @@ const createUserState = () => {
                     username: "",
                     isLogged: false,
                     email : "",
+                    id : '',
                 });
                 router.redirect('/signup')
             }
@@ -257,6 +268,7 @@ const createUserState = () => {
                 const [,,db] = start();
                 const notifications = (await db.listDocuments('649dfdee9174011b6657', '649dfe6a7af113c3e3e5', 
                 [Query.equal('to', get(userState).username)])).documents;
+                console.log(notifications);
                 if(notifications.length <= 3) return notifications;
                 return notifications.slice(0, 3);
             } catch(error) {
