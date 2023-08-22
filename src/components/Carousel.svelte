@@ -19,6 +19,6 @@
   
     <div class="flex justify-center w-full my-2 items-center">
       {#each images as id}
-      <a href={`#item-${id}`} class="badge">•</a>
+      <a href={`#item-${id}`} class="badge mx-1">•</a>
       {/each}
     </div>
