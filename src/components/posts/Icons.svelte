@@ -5,12 +5,9 @@
   function copyLinkToclipboard() {
     const id = $postsStore.postId;
     navigator.clipboard.writeText(window.location.hostname +   '/share/' + id);
-    console.log('hhh');
   }
 
   let showNotification = false;
-
-  console.log(window.location.hostname);
   // implement like calls database and do stuff
   // share copy to clipboard the id of the post
   // for openig a shared link read it through the parameters of the link, then open it with in a single page. show content in a card
@@ -24,9 +21,10 @@
       src="../../../assets/heart.svg"
       alt=""
       on:click={() =>
-        postsStore.ispostIsLiked(postdId).then(async (isLiked) => {
-          if (isLiked) return;
-          postsStore.likePost($postsStore.postId, $postsStore.username);
+        postsStore.ispostIsLiked($postsStore.postId, $postsStore.username).then(async (likeCheck) => {
+          console.log(likeCheck);
+          if (likeCheck.isLiked) return;
+          postsStore.likePost(likeCheck.postId, likeCheck.postCreator);
         })}
     />
   </li>
