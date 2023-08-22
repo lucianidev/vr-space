@@ -4,6 +4,9 @@
       import { fade } from "svelte/transition"
   import Avatar from "../../Avatar.svelte";
   import { postsStore } from "../../../stores/postsStore";
+  import FormInput from "../../form/FormInput.svelte";
+  import FormTextArea from "../../form/FormTextArea.svelte";
+  import Button from "../../Button.svelte";
   import Icons from "../Icons.svelte";
       export let title;
       export let message;
@@ -11,13 +14,15 @@
       export let image;
       export let avatar;
       export let showActions;
+      export let id;
+      let newTitle = title;
+      let newDescription = message;
       const client = new Client();
       const storage = new Storage(client);
 
         client
             .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
             .setProject("648f118e178c4607ca18");
-      const imagePreview = storage.getFilePreview('6499546407c2dc5f2d10', image);
 // create icons for actions
 
 </script>
@@ -32,9 +37,29 @@
         <div class="dropdown dropdown-left">
           <label tabindex="0" class="btn m-1 bg-black">Options</label>
           <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><a>Delete</a></li>
+            <li on:click={async() => {
+              await postsStore.removeDocument("6492fa03477ec93ae650", "6492fa0b59b3b4f615fa", id);
+              await postsStore.removeImage("6499546407c2dc5f2d10", image);
+              window.location.reload();
+            }}><a>Delete</a></li>
+                          <li>
+                            <a href="#{id}" >Modify</a>
+                          </li>
           </ul>
         </div>
+        
+
+        <div  class="modal" id="{id}">
+          <div class="modal-box">
+            <FormInput bind:input={newTitle} inputName="Title" />
+            <FormTextArea bind:input={newDescription} inputName="Description" />
+            <Button insideText="Upload" type="submit" action={async() => await postsStore.modifyDocument("6492fa03477ec93ae650", "6492fa0b59b3b4f615fa", id, {
+              title : newTitle,
+              description : newDescription,
+            })} />
+              <a href="#" class="btn mx-2">close</a>
+            </div>
+          </div>
         {/if}
       </div>
         <figure><img src={postsStore.preview('6499546407c2dc5f2d10', image)} alt="Shoes" /></figure>
@@ -52,9 +77,30 @@
           <div class="dropdown dropdown-left">
             <label tabindex="0" class="btn m-1 bg-black">Options</label>
             <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-              <li><a>Delete</a></li>
+              <li on:click={async() => {
+              await postsStore.removeDocument("6492fa03477ec93ae650", "6492fa0b59b3b4f615fa", id);
+              window.location.reload();
+              }}><a>Delete</a></li>
+
+              <li>
+                <a href="#{id}" >Modify</a>
+              </li>
+
             </ul>
           </div>
+
+          <div  class="modal" id="{id}">
+            <div class="modal-box">
+              <FormInput bind:input={newTitle} inputName="Title" />
+              <FormTextArea bind:input={newDescription} inputName="Description" />
+              <Button insideText="Upload" type="submit" action={async() => await postsStore.modifyDocument("6492fa03477ec93ae650", "6492fa0b59b3b4f615fa", id, {
+                title : newTitle,
+                description : newDescription,
+              })} />
+                <a href="#" class="btn mx-2">close</a>
+              </div>
+            </div>
+
           {/if}
       </div>
       <h2 class="card-title gradient-text">{title}</h2>

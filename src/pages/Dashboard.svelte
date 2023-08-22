@@ -6,6 +6,7 @@
   import Product from "../components/posts/marketplace/Product.svelte";
   import Avatar from "../components/Avatar.svelte";
   import { userState } from "../stores/userStores";
+  import { postsStore } from "../stores/postsStore";
 
   let posts = [];
   let products = [];
@@ -43,6 +44,7 @@
               image={post.image_id}
               avatar={post.avatar_id}
               showActions={true}
+              id={post.$id}
             >
             <PostStats id={post.$id} likes={post.likes}></PostStats>
           </Message>
