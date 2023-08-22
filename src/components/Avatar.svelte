@@ -10,37 +10,37 @@
 <div class="avatar items-center  justify-center">
 
 
-    {#if size==="big"}
+  {#if size==="big"}
       <div class="w-48 rounded-full flex">
-        {#if $userState.avatarId}
+        {#if avatarId}
         <img src={postsStore.preview("649aee3bd70a6aa2cb34",avatarId)} alt="" />
       {:else}
         <img
-          src={`https://api.dicebear.com/6.x/lorelei/svg?seed=${username}`}
+          src="https://source.boringavatars.com"
           alt=""
         />
       {/if}
     </div>
     {:else if size==="medium"}
     <div class="w-20 rounded-full flex">
-      {#if $userState.avatarId}
+      {#if avatarId}
       <img src={postsStore.preview("649aee3bd70a6aa2cb34",avatarId)} alt="" />
     {:else}
       <img
-        src={`https://api.dicebear.com/6.x/lorelei/svg?seed=${username}`}
+        src="https://source.boringavatars.com"
         alt=""
       />
     {/if}
   </div>
   {:else if size === "small"}
   <div class="w-10 rounded-full flex">
-    {#if $userState.avatarId}
+    {#if avatarId}
     <img src={postsStore.preview("649aee3bd70a6aa2cb34",avatarId)} alt="" />
   {:else}
-    <img
-      src={`https://api.dicebear.com/6.x/lorelei/svg?seed=${username}`}
-      alt=""
-    />
+  <img
+  src="https://source.boringavatars.com"
+  alt=""
+/>
   {/if}
 </div>
   {/if}
