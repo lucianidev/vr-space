@@ -14,7 +14,7 @@
   export let isProduct;
 </script>
 {#if !isProduct}
-<Form formName="Post"}>
+<Form formName="Post">
 
   <FormFile bind:input={file} inputName="file" />
   <FormInput bind:input={title} inputName="Title" />
