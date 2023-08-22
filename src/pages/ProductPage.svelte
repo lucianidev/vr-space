@@ -29,7 +29,7 @@
       </div>
     </div>
   {:then details}
-    <section class="text-gray-700 body-font overflow-hidden h-full	">
+    <section class="text-gray-700 body-font overflow-hidden h-full">
       <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col lg:flex-wrap">
           <Carousel {images} />
