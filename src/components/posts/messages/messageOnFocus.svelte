@@ -10,15 +10,16 @@
     .setEndpoint("http://127.0.0.1:81/v1") // Your API Endpoint
     .setProject("648f118e178c4607ca18"); // Your project ID
   // i valori so reattivis
+
+  console.log($postsStore.avatar);
 </script>
 {#if $postsStore.image}
   <div class="grid place-items-center z-50">
-    <div class="card w-4/12 bg-base-100 shadow-xl fixed">
-      <div class="modal" class:modal-open={$postsStore.isOnFocus}>
-        <div class="modal-box">
-          <div class="card-body">
+      <div class="modal" class:modal-open={$postsStore.isOnFocus} on:click={() =>   postsStore.removeFocus()}>
+        <div class="card w-2/4 bg-black gradient-border rounded-2xl shadow-xl">
+          <div class="card-body bg-black gradient-border rounded-2xl shadow-xl">
             <div class="avatar flex items-center justify-start">
-              <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size="10"></Avatar>
+              <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size={"small"}></Avatar>
               <p class="m-2">{$postsStore.username}</p>
             </div>
             <figure>
@@ -30,38 +31,25 @@
             <h2 class="card-title">{$postsStore.title}</h2>
             <p>{$postsStore.message}</p>
             <Icons></Icons>
-          </div>
         </div>
       </div>
     </div>
   </div>
 {:else}
-  <div class="grid place-items-center z-50">
-    <div class="card w-2/4 bg-base-100 shadow-xl fixed">
-      <div class="modal" class:modal-open={$postsStore.isOnFocus}>
-        <div class="modal-box">
-          <div class="avatar flex items-center justify-start">
-            <div class="w-10 rounded-full">
-              <img
-                src={
-                postsStore.preview("649aee3bd70a6aa2cb34", $postsStore.avatar)}
-              />
-            </div>
-            <p class="m-2">{$postsStore.username}</p>
-          </div>
-          <h3 class="font-bold text-lg">{$postsStore.title}</h3>
-          <p class="py-4">{$postsStore.message}</p>
-          <Icons />
+<div class="grid place-items-center z-50">
+  <div class="modal" class:modal-open={$postsStore.isOnFocus} on:click={() =>   postsStore.removeFocus()}>
+    <div class="card w-2/4 bg-black gradient-border rounded-2xl shadow-xl">
+      <div class="card-body bg-black gradient-border rounded-2xl shadow-xl">
+        <div class="avatar flex items-center justify-start">
+          <Avatar avatarId={$postsStore.avatar} username={$postsStore.username} size={"small"}></Avatar>
+          <p class="m-2">{$postsStore.username}</p>
         </div>
-      </div>
+        <h2 class="card-title">{$postsStore.title}</h2>
+        <p>{$postsStore.message}</p>
+        <Icons></Icons>
     </div>
   </div>
+</div>
+</div>
 {/if}
-
-
-<svelte:window
-  on:click={() => {
-    postsStore.removeFocus();
-  }}
-/>
 

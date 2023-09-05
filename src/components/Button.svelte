@@ -14,7 +14,7 @@
 };
 </script>
 
-<button class="btn btn-primary rounded-full {currentVisibility}" on:click={disable} on:click={action} type={type}>
+<button class="btn btn-primary rounded-full my-3 {currentVisibility}" on:click={disable} on:click|preventDefault={action} type={type}>
     {#if isContainigLink}
         <a href={link}>{insideText}</a>
     {:else}

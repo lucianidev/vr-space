@@ -1,4 +1,3 @@
-
 export const imagesToId = async (storage, images, id) => {
     const ids = [];
     for (const image of images) {

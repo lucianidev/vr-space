@@ -14,20 +14,20 @@
   export let isProduct;
 </script>
 {#if !isProduct}
-<Form formName="Post" action={() => postsStore.createPost(title, description, file)}>
+<Form formName="Post">
 
   <FormFile bind:input={file} inputName="file" />
   <FormInput bind:input={title} inputName="Title" />
   <FormTextArea bind:input={description} inputName="Story" />
-  <Button insideText="Upload" type="submit" />
+  <Button insideText="Upload" type="submit" action={async() => await postsStore.createPost(title, description, file)} />
 </Form>
 {:else}
-<Form formName="Post" action={() => postsStore.createProduct(title, description, file,tags,price)}>
+<Form formName="Post">
   <FormInput bind:input={title} inputName="Title" />
   <FormFile bind:input={file} multiple={true} inputName="file"/>
   <FormTextArea bind:input={description} inputName="description" />
   <FormTextArea bind:input={tags} inputName="tags" />
   <FormInput bind:input={price} inputName="Price" />
-  <Button insideText="Upload" type="Upload" />
+  <Button insideText="Upload" type="Upload" action={async() => await postsStore.createProduct(title, description, file,tags,price)}/>
 </Form>
 {/if}

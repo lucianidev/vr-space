@@ -5,9 +5,8 @@
   import { onMount } from "svelte";
 
   onMount(async() => {
-    await userState.isLogged().then(() => {
-        router.redirect('/')
-    })
+
+
   })
 </script>
 
