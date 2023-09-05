@@ -1,5 +1,13 @@
 import { writable, get } from "svelte/store";
 import { Account, Client, Storage, Databases, Query, ID } from "appwrite";
+import Document from "../libs/Document";
+import constants from "../utils/constants";
+
+/**
+ * svelte store for storing searching methods based on differents search parameters
+ */
+
+
 
 const searchstore = () => {
     const { set, update, subscribe } = writable({
@@ -24,9 +32,8 @@ const searchstore = () => {
             try {
                 console.log(who);
                 const [db] = start();
-                const users = (await db.listDocuments('64a553299087271a8aea', '64a5533cd148431c27fd',
-                    [Query.search('username', who)])).documents;
-                    console.log(users);
+                const document = new Document(db, constants.ID.DATABASE.PROFILES, constants.ID.COLLECTIONS.AVATARS,)
+                const users = (await document.getAllDocuments([Query.search('username', who)])).documents;
                 return users;
             } catch (error) {
                 console.log(error)
@@ -36,7 +43,8 @@ const searchstore = () => {
         searchProductsByTitle: async (what) => {
             try {
                 const [db] = start();
-                const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f',
+                const document = new Document(db, constants.ID.DATABASE.POSTS, constants.ID.COLLECTIONS.PRODUCTS)
+                const products = (await document.getAllDocuments(
                     [Query.search('title', what)])).documents;
                 console.log(products);
                 return products;
@@ -48,9 +56,9 @@ const searchstore = () => {
         searchProductsByTag: async (what) => {
             try {
                 const  [db] = start();
-                const products = (await db.listDocuments('6492fa03477ec93ae650', '649c37a515560d0fd35f',
+                const document = new Document(db, constants.ID.DATABASE.POSTS, constants.ID.COLLECTIONS.PRODUCTS)
+                const products = (await document.getAllDocuments(
                     [Query.search('tags', what)])).documents;
-                console.log(products);
                 return products;
             } catch (error) {
                 console.log(error)

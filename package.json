@@ -17,6 +17,7 @@
   "dependencies": {
     "@paypal/paypal-js": "^6.0.0",
     "appwrite": "^11.0.0",
+    "jsdoc": "^4.0.2",
     "page": "^1.11.6"
   }
 }

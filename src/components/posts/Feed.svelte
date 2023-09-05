@@ -4,7 +4,6 @@
   import { onMount } from "svelte";
   import { userState } from "../../stores/userStores";
   import MessageOnFocus from "./messages/MessageOnFocus.svelte";
-  import Icons from "./Icons.svelte";
   import { postsStore } from "../../stores/postsStore";
   import Search from "../Search.svelte";
 
@@ -13,8 +12,9 @@
   onMount(async () => {
     await userState.isLogged();
     username = $userState.username;
-    posts = postsStore.readPosts().then((data) => data);
+    posts =  postsStore.readPosts().then((data) => data);
   });
+  
 </script>
 
 {#if $userState.isLogged}

@@ -9,7 +9,8 @@
   let products = [];
   onMount(async () => {
     await userState.isLogged();
-    username = await userState.getUserName();
+    username = $userState.username;
+    console.log(postsStore.listProducts().then(data => data));
     products = postsStore.listProducts().then(data => data);
   });
 </script>
